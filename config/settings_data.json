@@ -1,0 +1,14 @@
+{
+  "current": {
+    "color_background": "#fffdfa",
+    "color_foreground": "#171713",
+    "color_accent": "#30452b"
+  },
+  "presets": {
+    "Faris Dev": {
+      "color_background": "#fffdfa",
+      "color_foreground": "#171713",
+      "color_accent": "#30452b"
+    }
+  }
+}
