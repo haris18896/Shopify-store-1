@@ -36,7 +36,7 @@ Required fields:
 
 ## Prohibited until cleared
 
-- “Aster & Loom” name, logo, and tagline
+- “Jhoom” name, logo, and tagline until ownership and trademark clearance are documented
 - Zara, H&M, Next, Mango, Adidas, Nike, Puma, Casio, Fossil, Levi's, Visa, Mastercard, Easypaisa, JazzCash, Atome, UnionPay, and other third-party brand marks shown in the references
 - People, product, lifestyle, floral, handwriting, and promotional artwork extracted from the screenshots
 - Any stock, AI-generated, or commissioned asset without documented commercial and redistribution rights

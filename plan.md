@@ -1,4 +1,4 @@
-# Faris Fabrics Shopify Theme Plan
+# Jhoom Shopify Theme Plan
 
 ## 1. Project status
 
@@ -315,7 +315,7 @@ Downloading an asset does not grant redistribution rights. Only assets with docu
 ### Rules
 
 1. The screenshots in `DesignImages/` are references only. Do not crop, extract, or ship their people, products, logos, icons, or payment marks.
-2. Do not ship the “Aster & Loom” identity until ownership and trademark clearance are documented. The theme currently uses **Faris Dev** as an explicitly non-release development name; a unique commercial name and trademark checks are still required.
+2. Do not ship the “Jhoom” identity until ownership and trademark clearance are documented.
 3. Hero and catalog photography should normally remain demo-store content, not theme-zip content. Use merchant-uploaded Shopify images in the installed theme.
 4. If preview photography is licensed, save the original download, invoice/license, author, source URL, license version, permitted uses, attribution requirement, and whether redistribution is allowed.
 5. Use original inline SVG UI icons or a permissively licensed icon set that allows redistribution; preserve its license notice.

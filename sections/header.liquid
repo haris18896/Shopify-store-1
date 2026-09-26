@@ -4,15 +4,26 @@
       <summary aria-label="Open menu"><span></span><span></span><span></span></summary>
       <nav aria-label="Mobile navigation">
         <button class="mobile-menu__close" type="button" aria-label="Close menu">×</button>
-        {% if section.settings.menu != blank %}<ul>{% for link in section.settings.menu.links %}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{% endfor %}</ul>{% endif %}
+        <ul>
+          {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}<li><a href="{{ block.settings.link | default: routes.all_products_collection_url }}">{{ block.settings.label | escape }}</a></li>{% endfor %}
+          {% elsif section.settings.menu != blank %}
+            {% for link in section.settings.menu.links %}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{% endfor %}
+          {% endif %}
+        </ul>
       </nav>
     </details>
 
-    <a class="site-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+    <a class="site-logo" href="{{ routes.root_url }}" aria-label="{{ section.settings.brand_name | escape }} home">
       {% if section.settings.logo != blank %}
-        {{ section.settings.logo | image_url: width: 440 | image_tag: widths: '180, 280, 440', width: section.settings.logo_width, loading: 'eager', alt: shop.name }}
+        {{ section.settings.logo | image_url: width: 440 | image_tag: widths: '180, 280, 440', width: section.settings.logo_width, loading: 'eager', alt: section.settings.brand_name }}
       {% else %}
-        <span class="site-logo__mark" aria-hidden="true">✣</span><span><strong>{{ shop.name | escape }}</strong>{% if section.settings.tagline != blank %}<small>{{ section.settings.tagline | escape }}</small>{% endif %}</span>
+        <svg class="site-logo__botanical" aria-hidden="true" viewBox="0 0 42 54">
+          <path class="stem" d="M21 52c1-15 0-30-2-48M20 30c-7-4-11-9-13-15M20 22c7-4 11-9 13-15M20 39c-5-2-9-5-12-10M21 43c6-3 10-7 13-13"/>
+          <path class="leaf leaf--green" d="M7 15c7 0 10 4 12 10-7 0-11-4-12-10Zm27-8c-7 1-10 5-13 11 7-1 11-5 13-11ZM8 29c6 0 9 3 11 8-6 0-10-3-11-8Zm26 1c-6 0-10 4-12 10 7 0 11-4 12-10Z"/>
+          <path class="leaf leaf--peach" d="M15 4c4 3 5 7 4 13-5-3-6-8-4-13ZM3 22c5-1 10 1 14 6-6 2-11 0-14-6Zm35-5c-5 0-9 3-12 8 6 1 10-2 12-8Z"/>
+        </svg>
+        <span><strong>{{ section.settings.brand_name | escape }}</strong>{% if section.settings.tagline != blank %}<small>{{ section.settings.tagline | escape }}</small>{% endif %}</span>
       {% endif %}
     </a>
 
@@ -24,11 +35,19 @@
 
     <nav class="header-actions" aria-label="Customer links">
       <a href="{{ routes.account_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 22c0-5 3-8 8-8s8 3 8 8"/></svg><span>Account</span></a>
-      {% if section.settings.wishlist_url != blank %}<a href="{{ section.settings.wishlist_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span>Wishlist</span></a>{% endif %}
+      <a href="{{ section.settings.wishlist_url | default: routes.account_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span>Wishlist</span></a>
       <a class="header-cart" href="{{ routes.cart_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2 3h2l2.4 12.5h11.8L21 7H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg><span>Cart</span><b aria-label="{{ cart.item_count }} items">{{ cart.item_count }}</b></a>
     </nav>
   </div>
-  {% if section.settings.menu != blank %}<nav class="site-nav" aria-label="Primary navigation"><ul class="page-width">{% for link in section.settings.menu.links %}<li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>{% endfor %}</ul></nav>{% endif %}
+  <nav class="site-nav" aria-label="Primary navigation">
+    <ul class="page-width">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}<li {{ block.shopify_attributes }}><a href="{{ block.settings.link | default: routes.all_products_collection_url }}"{% if block.settings.highlight %} class="is-highlighted"{% endif %}>{{ block.settings.label | escape }}</a></li>{% endfor %}
+      {% elsif section.settings.menu != blank %}
+        {% for link in section.settings.menu.links %}<li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>{% endfor %}
+      {% endif %}
+    </ul>
+  </nav>
 </header>
 
 {% schema %}
@@ -37,10 +56,19 @@
   "settings": [
     { "type": "image_picker", "id": "logo", "label": "Logo" },
     { "type": "range", "id": "logo_width", "label": "Logo width", "min": 120, "max": 260, "step": 10, "unit": "px", "default": 190 },
+    { "type": "text", "id": "brand_name", "label": "Brand name", "default": "Jhoom" },
     { "type": "text", "id": "tagline", "label": "Tagline", "default": "Style for every story" },
     { "type": "text", "id": "search_placeholder", "label": "Search placeholder", "default": "Search for products, brands and more..." },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
-    { "type": "url", "id": "wishlist_url", "label": "Wishlist app page (optional)", "info": "Connect this to a wishlist app page. Leave blank to hide." }
-  ]
+    { "type": "url", "id": "wishlist_url", "label": "Wishlist app page (optional)", "info": "Connect this to a wishlist app page. Until configured, the icon opens the customer account." }
+  ],
+  "blocks": [{
+    "type": "navigation_item", "name": "Navigation item", "limit": 10,
+    "settings": [
+      { "type": "text", "id": "label", "label": "Label", "default": "Shop" },
+      { "type": "url", "id": "link", "label": "Link" },
+      { "type": "checkbox", "id": "highlight", "label": "Highlight", "default": false }
+    ]
+  }]
 }
 {% endschema %}

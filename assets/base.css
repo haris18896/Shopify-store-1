@@ -28,28 +28,33 @@ h1, h2, h3, p { margin-block-start: 0; }
 .placeholder-svg { width: 100%; height: 100%; background: #eee9e3; }
 
 /* Announcement and header */
-.announcement-bar { background: #f6eee7; font-size: 12px; }
-.announcement-bar__inner { display: grid; grid-template-columns: repeat(3, 1fr); min-height: 34px; align-items: center; }
+.announcement-bar { border-bottom: 1px solid #eee7df; background: #f8eee6; font-size: 11px; }
+.announcement-bar__inner { display: grid; grid-template-columns: repeat(3, 1fr); width: min(calc(100% - 32px), 1240px); min-height: 28px; align-items: center; }
 .announcement-bar__item { display: flex; align-items: center; justify-content: center; gap: .55rem; }
-.announcement-bar__item svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.site-header { position: relative; z-index: 20; border-bottom: 1px solid var(--color-line); background: rgba(255,255,255,.98); }
-.site-header__main { display: grid; grid-template-columns: minmax(190px, 300px) minmax(280px, 1fr) auto; gap: clamp(1.5rem,4vw,5rem); align-items: center; min-height: 70px; }
+.announcement-bar__item svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.site-header { position: relative; z-index: 20; border-bottom: 1px solid var(--color-line); background: #fff; }
+.site-header__main { display: grid; grid-template-columns: 235px minmax(360px, 560px) 210px; justify-content: space-between; gap: clamp(1.5rem,4vw,4.5rem); align-items: center; width: min(calc(100% - 32px), 1240px); min-height: 68px; }
 .site-logo { display: inline-flex; align-items: center; gap: .65rem; width: max-content; }
-.site-logo__mark { display: grid; place-items: center; width: 35px; height: 42px; color: #d38c6d; font: 32px/1 var(--font-heading); }
-.site-logo strong { display: block; font: 500 clamp(20px,2vw,28px)/1 var(--font-heading); white-space: nowrap; }
-.site-logo small { display: block; margin-top: 5px; font-size: 8px; letter-spacing: .3em; text-transform: uppercase; }
+.site-logo__botanical { width: 37px; height: 48px; flex: 0 0 auto; overflow: visible; }
+.site-logo__botanical .stem { fill: none; stroke: #586a4c; stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
+.site-logo__botanical .leaf--green { fill: #9eaa83; stroke: #586a4c; stroke-width: .5; }
+.site-logo__botanical .leaf--peach { fill: #e8a083; stroke: #bd765c; stroke-width: .5; }
+.site-logo strong { display: block; font: 500 27px/1 var(--font-heading); letter-spacing: .01em; white-space: nowrap; }
+.site-logo small { display: block; margin-top: 5px; font-size: 7px; letter-spacing: .31em; text-transform: uppercase; }
 .site-logo img { width: auto; max-height: 50px; }
-.header-search { display: grid; grid-template-columns: 1fr 44px; height: 40px; border: 1px solid #d8d2cc; border-radius: 7px; background: #fff; overflow: hidden; }
+.header-search { display: grid; grid-template-columns: 1fr 42px; width: 100%; height: 36px; border: 1px solid #d8d2cc; border-radius: 5px; background: #fff; overflow: hidden; }
 .header-search input { min-width: 0; padding: 0 1rem; border: 0; outline: 0; }
 .header-search button { display: grid; place-items: center; padding: 0; border: 0; border-left: 1px solid #ddd7d1; background: #f6f3ef; }
-.header-search svg, .header-actions svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.header-actions { display: flex; align-items: center; gap: 1.2rem; }
-.header-actions a { position: relative; display: grid; justify-items: center; gap: 2px; min-width: 44px; font-size: 10px; }
+.header-search svg { width: 18px; height: 18px; }
+.header-search svg, .header-actions svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 1.25rem; }
+.header-actions svg { width: 23px; height: 23px; }
+.header-actions a { position: relative; display: grid; justify-items: center; gap: 3px; min-width: 44px; font-size: 9px; line-height: 1; }
 .header-cart b { position: absolute; top: -8px; right: 0; display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 50%; color: #fff; background: var(--color-accent); font-size: 10px; }
 .site-nav { border-top: 1px solid #f1ede9; }
-.site-nav ul { display: flex; justify-content: center; gap: clamp(1.4rem,3vw,3rem); margin-block: 0; padding-block: .75rem; list-style: none; }
-.site-nav a { font-size: 13px; }
-.site-nav a:hover, .site-nav a[aria-current="page"] { color: #b54f49; }
+.site-nav ul { display: flex; justify-content: center; gap: clamp(1.6rem,2.7vw,2.75rem); width: min(calc(100% - 32px), 1240px); margin-block: 0; padding-block: .62rem; list-style: none; }
+.site-nav a { font-size: 11px; line-height: 1; }
+.site-nav a:hover, .site-nav a[aria-current="page"], .site-nav a.is-highlighted { color: #df3f43; }
 .mobile-menu { display: none; }
 
 /* Homepage */
@@ -180,7 +185,7 @@ h1, h2, h3, p { margin-block-start: 0; }
   .announcement-bar__item--2 { display: none; }
   .site-header__main { min-height: 78px; padding-top: 4px; }
   .site-logo { justify-self: center; gap: .35rem; }
-  .site-logo__mark { width: 26px; height: 32px; font-size: 25px; }
+  .site-logo__botanical { width: 29px; height: 38px; }
   .site-logo strong { font-size: clamp(19px,6vw,25px); }
   .site-logo small { margin-top: 3px; font-size: 6px; }
   .site-logo img { max-width: 180px; max-height: 45px; }

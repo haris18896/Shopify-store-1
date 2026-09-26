@@ -14,7 +14,20 @@
     },
     "header": {
       "type": "header",
-      "settings": {}
+      "blocks": {
+        "new_in": { "type": "navigation_item", "settings": { "label": "New In" } },
+        "women": { "type": "navigation_item", "settings": { "label": "Women" } },
+        "men": { "type": "navigation_item", "settings": { "label": "Men" } },
+        "girls": { "type": "navigation_item", "settings": { "label": "Girls" } },
+        "boys": { "type": "navigation_item", "settings": { "label": "Boys" } },
+        "baby": { "type": "navigation_item", "settings": { "label": "Baby" } },
+        "toys": { "type": "navigation_item", "settings": { "label": "Toys" } },
+        "watches": { "type": "navigation_item", "settings": { "label": "Watches" } },
+        "accessories": { "type": "navigation_item", "settings": { "label": "Accessories" } },
+        "sale": { "type": "navigation_item", "settings": { "label": "Sale", "highlight": true } }
+      },
+      "block_order": ["new_in", "women", "men", "girls", "boys", "baby", "toys", "watches", "accessories", "sale"],
+      "settings": { "brand_name": "Jhoom", "tagline": "Style for every story" }
     }
   },
   "order": ["announcement", "header"]
