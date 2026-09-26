@@ -28,6 +28,10 @@ Required fields:
 | `DesignImages/MobileVersion/*.png` (8 files) | Visual design references only | Provenance and embedded third-party marks are not cleared | Excluded from theme package and marketplace media |
 | `assets/base.css` | Theme foundation styles | Original project source | May ship with theme |
 | `assets/theme.js` | Theme foundation JavaScript | Original project source | May ship with theme |
+| `assets/home-hero.jpg` | Homepage demo hero | Original AI-generated asset created for this project on 2026-09-26; no third-party marks or source imagery | Commercial use and redistribution inside the paid theme intended; retain generation record |
+| `assets/home-campaign.jpg` | Homepage demo campaign banner | Original AI-generated asset created for this project on 2026-09-26; no third-party marks or source imagery | Commercial use and redistribution inside the paid theme intended; retain generation record |
+| `assets/home-categories.jpg` | Eight-position homepage category fallback sprite | Original AI-generated asset created for this project on 2026-09-26; no third-party marks or source imagery | Commercial use and redistribution inside the paid theme intended; retain generation record |
+| `assets/home-features.jpg` | Five-position homepage collection-card fallback sprite | Original AI-generated asset created for this project on 2026-09-26; no third-party marks or source imagery | Commercial use and redistribution inside the paid theme intended; retain generation record |
 | System font stack | Temporary theme typography | Operating-system supplied; no font files redistributed | May be referenced; no files bundled |
 
 ## Prohibited until cleared

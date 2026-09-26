@@ -1,31 +1,46 @@
-<header class="site-header">
-  <div class="site-header__inner page-width">
-    <a href="{{ routes.root_url }}">{{ shop.name | escape }}</a>
-
-    {% if section.settings.menu != blank %}
-      <nav class="site-nav" aria-label="Primary navigation">
-        <ul>
-          {% for link in section.settings.menu.links %}
-            <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
-          {% endfor %}
-        </ul>
+<header class="site-header" data-header>
+  <div class="site-header__main page-width">
+    <details class="mobile-menu">
+      <summary aria-label="Open menu"><span></span><span></span><span></span></summary>
+      <nav aria-label="Mobile navigation">
+        <button class="mobile-menu__close" type="button" aria-label="Close menu">×</button>
+        {% if section.settings.menu != blank %}<ul>{% for link in section.settings.menu.links %}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{% endfor %}</ul>{% endif %}
       </nav>
-    {% endif %}
+    </details>
 
-    <a href="{{ routes.cart_url }}">Cart ({{ cart.item_count }})</a>
+    <a class="site-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+      {% if section.settings.logo != blank %}
+        {{ section.settings.logo | image_url: width: 440 | image_tag: widths: '180, 280, 440', width: section.settings.logo_width, loading: 'eager', alt: shop.name }}
+      {% else %}
+        <span class="site-logo__mark" aria-hidden="true">✣</span><span><strong>{{ shop.name | escape }}</strong>{% if section.settings.tagline != blank %}<small>{{ section.settings.tagline | escape }}</small>{% endif %}</span>
+      {% endif %}
+    </a>
+
+    <form class="header-search" action="{{ routes.search_url }}" method="get" role="search">
+      <label class="visually-hidden" for="HeaderSearch">Search the store</label>
+      <input id="HeaderSearch" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ section.settings.search_placeholder | escape }}">
+      <button type="submit" aria-label="Search"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg></button>
+    </form>
+
+    <nav class="header-actions" aria-label="Customer links">
+      <a href="{{ routes.account_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 22c0-5 3-8 8-8s8 3 8 8"/></svg><span>Account</span></a>
+      {% if section.settings.wishlist_url != blank %}<a href="{{ section.settings.wishlist_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span>Wishlist</span></a>{% endif %}
+      <a class="header-cart" href="{{ routes.cart_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2 3h2l2.4 12.5h11.8L21 7H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg><span>Cart</span><b aria-label="{{ cart.item_count }} items">{{ cart.item_count }}</b></a>
+    </nav>
   </div>
+  {% if section.settings.menu != blank %}<nav class="site-nav" aria-label="Primary navigation"><ul class="page-width">{% for link in section.settings.menu.links %}<li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>{% endfor %}</ul></nav>{% endif %}
 </header>
 
 {% schema %}
 {
   "name": "Header",
   "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Menu",
-      "default": "main-menu"
-    }
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 120, "max": 260, "step": 10, "unit": "px", "default": 190 },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Style for every story" },
+    { "type": "text", "id": "search_placeholder", "label": "Search placeholder", "default": "Search for products, brands and more..." },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "url", "id": "wishlist_url", "label": "Wishlist app page (optional)", "info": "Connect this to a wishlist app page. Leave blank to hide." }
   ]
 }
 {% endschema %}

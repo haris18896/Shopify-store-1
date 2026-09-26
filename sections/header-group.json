@@ -4,6 +4,12 @@
   "sections": {
     "announcement": {
       "type": "announcement-bar",
+      "blocks": {
+        "delivery": { "type": "announcement", "settings": { "icon": "delivery", "text": "Free delivery over PKR 5,000" } },
+        "payment": { "type": "announcement", "settings": { "icon": "box", "text": "Cash on delivery available" } },
+        "sale": { "type": "announcement", "settings": { "icon": "tag", "text": "Mid-season sale up to 40% off" } }
+      },
+      "block_order": ["delivery", "payment", "sale"],
       "settings": {}
     },
     "header": {

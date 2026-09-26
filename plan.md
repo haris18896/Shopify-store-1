@@ -2,23 +2,24 @@
 
 ## 1. Project status
 
-**Current phase:** architecture and scaffold only.
+**Current phase:** homepage implementation complete; collection landing is next.
 
-This repository now contains an original Shopify Online Store 2.0 scaffold. The reference mockups have been reviewed, but no production page design has been implemented yet. The files in `DesignImages/` remain visual references only and are not shipped as theme assets.
+This repository contains an original Shopify Online Store 2.0 scaffold and a production-ready responsive homepage based on the supplied desktop/mobile references. The files in `DesignImages/` remain visual references only and are not shipped as theme assets.
 
 ### Current deliverables
 
 - Theme folder structure and required template entry points
-- Minimal global layout, header/footer section groups, theme settings, CSS, and JavaScript entry points
+- Responsive announcement bar, commerce header, mobile drawer, footer, newsletter, and mobile dock
+- Configurable homepage hero, category rail, featured collection cards, dynamic bestseller cards, campaign banner, brand rail, and trust strip
+- Original redistributable homepage demo imagery with entries in `ASSET_LICENSES.md`
 - Screen-to-template and component inventory
 - Responsive, accessibility, performance, SEO, testing, and release plan
 - Asset licensing policy and register in `ASSET_LICENSES.md`
 
 ### Deliberately not included yet
 
-- Pixel-level page implementation
 - Product/demo data
-- Hero, product, category, brand, payment, or lifestyle imagery
+- Product, brand, or payment imagery beyond the original homepage demo assets
 - Third-party libraries, fonts, or icon packs
 - Store connection, deployment, or marketplace submission
 - Checkout and new customer-account UI code, because Shopify controls those surfaces separately from storefront themes
@@ -54,6 +55,8 @@ The 18 mockups show a warm, editorial, family-fashion storefront with serif disp
 ---
 
 ## 3. Commercial release decision — required before launch
+
+Before packaging, replace the placeholder documentation URL and support email in `config/settings_schema.json` with the seller's real public support details.
 
 The same build cannot be released on both target marketplaces.
 

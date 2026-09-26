@@ -2,7 +2,38 @@
   "sections": {
     "main": {
       "type": "main-index",
-      "settings": {}
+      "blocks": {
+        "hero": { "type": "slide", "settings": { "eyebrow": "New season", "heading": "New Season, Premium Style", "text": "<p>Modern fashion for every generation. Timeless looks, everyday moments.</p>", "button_label": "Shop now", "badge": "Flat\n20% Off" } },
+        "women": { "type": "category", "settings": { "title": "Women" } },
+        "men": { "type": "category", "settings": { "title": "Men" } },
+        "girls": { "type": "category", "settings": { "title": "Girls" } },
+        "boys": { "type": "category", "settings": { "title": "Boys" } },
+        "baby": { "type": "category", "settings": { "title": "Baby" } },
+        "toys": { "type": "category", "settings": { "title": "Toys" } },
+        "watches": { "type": "category", "settings": { "title": "Watches" } },
+        "accessories": { "type": "category", "settings": { "title": "Accessories" } },
+        "eastern": { "type": "feature", "settings": { "heading": "Eastern Wear", "text": "Elegant traditions for modern you." } },
+        "western": { "type": "feature", "settings": { "heading": "Western Wear", "text": "Everyday style reimagined." } },
+        "kids": { "type": "feature", "settings": { "heading": "Kids Essentials", "text": "Play. Explore. Grow." } },
+        "basics": { "type": "feature", "settings": { "heading": "Baby Basics", "text": "Soft beginnings for bright tomorrows." } },
+        "premium": { "type": "feature", "settings": { "heading": "Premium Watches", "text": "Time for what matters." } },
+        "brand_1": { "type": "brand", "settings": { "name": "ATELIER" } },
+        "brand_2": { "type": "brand", "settings": { "name": "MORROW" } },
+        "brand_3": { "type": "brand", "settings": { "name": "NORTH & CO." } },
+        "brand_4": { "type": "brand", "settings": { "name": "FORM" } }
+      },
+      "block_order": ["hero", "women", "men", "girls", "boys", "baby", "toys", "watches", "accessories", "eastern", "western", "kids", "basics", "premium", "brand_1", "brand_2", "brand_3", "brand_4"],
+      "settings": {
+        "featured_heading": "Featured Collections",
+        "products_heading": "Bestsellers",
+        "products_to_show": 6,
+        "promo_heading": "Buy 2, Get 1 Free",
+        "promo_text": "Across selected categories",
+        "promo_button": "Shop now",
+        "brands_heading": "Featured Brands",
+        "returns_text": "Hassle-free returns",
+        "delivery_text": "Reliable nationwide delivery"
+      }
     }
   },
   "order": ["main"]

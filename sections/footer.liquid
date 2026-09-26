@@ -1,29 +1,44 @@
 <footer class="site-footer">
+  {% if section.settings.show_newsletter %}
+    <div class="footer-newsletter page-width">
+      <div><h2>{{ section.settings.newsletter_heading | escape }}</h2><p>{{ section.settings.newsletter_text | escape }}</p></div>
+      {% form 'customer', class: 'newsletter-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="visually-hidden" for="FooterEmail-{{ section.id }}">Email address</label>
+        <input id="FooterEmail-{{ section.id }}" type="email" name="contact[email]" value="{{ form.email }}" placeholder="Enter your email address" autocomplete="email" required>
+        <button type="submit">Subscribe</button>
+        {% if form.posted_successfully? %}<p class="form-message" role="status">Thanks for subscribing.</p>{% endif %}
+        {{ form.errors | default_errors }}
+      {% endform %}
+    </div>
+  {% endif %}
   <div class="site-footer__inner page-width">
-    <small>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</small>
-
-    {% if section.settings.menu != blank %}
-      <nav aria-label="Footer navigation">
-        <ul>
-          {% for link in section.settings.menu.links %}
-            <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
-          {% endfor %}
-        </ul>
-      </nav>
-    {% endif %}
+    <div class="footer-brand"><a class="site-logo" href="{{ routes.root_url }}"><span class="site-logo__mark" aria-hidden="true">✣</span><span><strong>{{ shop.name | escape }}</strong><small>{{ section.settings.tagline | escape }}</small></span></a><p>{{ section.settings.brand_text | escape }}</p></div>
+    {% for i in (1..3) %}
+      {% liquid
+        assign menu_key = 'menu_' | append: i
+        assign menu = section.settings[menu_key]
+      %}
+      {% if menu != blank %}<nav aria-label="{{ menu.title | escape }}"><h3>{{ menu.title | escape }}</h3><ul>{% for link in menu.links %}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{% endfor %}</ul></nav>{% endif %}
+    {% endfor %}
+    <div class="footer-payments"><h3>We accept</h3><div>{% for type in shop.enabled_payment_types %}{{ type | payment_type_svg_tag: class: 'payment-icon' }}{% endfor %}</div></div>
   </div>
+  <div class="footer-bottom page-width"><small>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}. All rights reserved.</small>{% if section.settings.policies %}<nav aria-label="Policies"><ul>{% for policy in shop.policies %}{% if policy != blank %}<li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>{% endif %}{% endfor %}</ul></nav>{% endif %}</div>
 </footer>
 
 {% schema %}
 {
   "name": "Footer",
   "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Menu",
-      "default": "footer"
-    }
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter", "default": true },
+    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Join our family" },
+    { "type": "text", "id": "newsletter_text", "label": "Newsletter text", "default": "Get exclusive offers, new arrivals and style inspiration." },
+    { "type": "text", "id": "tagline", "label": "Brand tagline", "default": "Style for every story" },
+    { "type": "text", "id": "brand_text", "label": "Brand description", "default": "Fashion, family and a brighter tomorrow." },
+    { "type": "link_list", "id": "menu_1", "label": "First menu", "default": "footer" },
+    { "type": "link_list", "id": "menu_2", "label": "Second menu" },
+    { "type": "link_list", "id": "menu_3", "label": "Third menu" },
+    { "type": "checkbox", "id": "policies", "label": "Show policy links", "default": true }
   ]
 }
 {% endschema %}

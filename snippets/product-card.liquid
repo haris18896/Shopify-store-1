@@ -1,0 +1,29 @@
+{% liquid
+  assign current_variant = card_product.selected_or_first_available_variant
+  assign compare_at = current_variant.compare_at_price
+  assign price = current_variant.price
+  assign discount = 0
+  if compare_at > price and compare_at > 0
+    assign saved = compare_at | minus: price | times: 100.0
+    assign discount = saved | divided_by: compare_at | round
+  endif
+%}
+<article class="product-card">
+  <div class="product-card__media">
+    <a href="{{ card_product.url }}" aria-label="{{ card_product.title | escape }}">
+      {% if card_product.featured_image %}
+        {{ card_product.featured_image | image_url: width: 700 | image_tag: widths: '220, 360, 500, 700', sizes: '(max-width: 749px) 43vw, 18vw', loading: 'lazy', alt: card_product.featured_image.alt | default: card_product.title }}
+      {% else %}{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
+    </a>
+    {% if discount > 0 %}<span class="product-card__sale">-{{ discount }}%</span>{% endif %}
+  </div>
+  <div class="product-card__content">
+    <h3><a href="{{ card_product.url }}">{{ card_product.title | escape }}</a></h3>
+    {% assign rating = card_product.metafields.reviews.rating.value %}
+    {% if rating != blank %}<div class="product-card__rating" aria-label="Rated {{ rating.rating }} out of {{ rating.scale_max }}"><span aria-hidden="true">★★★★★</span>{% if card_product.metafields.reviews.rating_count != blank %}<small>({{ card_product.metafields.reviews.rating_count }})</small>{% endif %}</div>{% endif %}
+    <p class="product-card__price"><strong>{{ price | money }}</strong>{% if compare_at > price %}<s>{{ compare_at | money }}</s>{% endif %}</p>
+    {% if card_product.available and card_product.has_only_default_variant %}
+      {% form 'product', card_product, class: 'quick-add' %}<input type="hidden" name="id" value="{{ current_variant.id }}"><button type="submit"><span aria-hidden="true">🛒</span> Quick add</button>{% endform %}
+    {% else %}<a class="quick-add quick-add--link" href="{{ card_product.url }}">Choose options</a>{% endif %}
+  </div>
+</article>
