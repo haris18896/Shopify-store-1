@@ -5,7 +5,7 @@
   assign brand_blocks = section.blocks | where: 'type', 'brand'
 %}
 <div class="home" data-home-section="{{ section.id }}">
-  <section class="hero page-width" aria-roledescription="carousel" aria-label="Featured promotions" data-slider>
+  <section class="hero page-width" aria-roledescription="carousel" aria-label="Featured promotions" data-slider data-autoplay="{{ section.settings.hero_autoplay }}" data-interval="{{ section.settings.hero_speed | times: 1000 }}">
     <div class="hero__track">
       {% for block in slide_blocks %}
         <article class="hero__slide{% if forloop.first %} is-active{% endif %}" data-slide {{ block.shopify_attributes }}>
@@ -13,7 +13,22 @@
             {% if block.settings.mobile_image != blank %}<source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 1000 }}">{% endif %}
             {% if block.settings.image != blank %}
               {{ block.settings.image | image_url: width: 2400 | image_tag: widths: '750, 1200, 1800, 2400', sizes: '(max-width: 749px) 100vw, 1440px', loading: 'eager', fetchpriority: 'high', alt: block.settings.image.alt }}
-            {% else %}<img src="{{ 'home-hero.jpg' | asset_url }}" width="1916" height="821" loading="eager" fetchpriority="high" alt="Elegant fashion campaign">{% endif %}
+            {% else %}
+              {% liquid
+                case forloop.index
+                  when 2
+                    assign hero_asset = 'home-hero-women.jpg'
+                    assign hero_alt = 'Woman wearing an embroidered rose outfit'
+                  when 3
+                    assign hero_asset = 'home-hero-men.jpg'
+                    assign hero_alt = 'Man wearing an embroidered sage kurta'
+                  else
+                    assign hero_asset = 'home-hero.jpg'
+                    assign hero_alt = 'Elegant fashion campaign'
+                endcase
+              %}
+              <img src="{{ hero_asset | asset_url }}" width="1916" height="821" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"{% if forloop.first %} fetchpriority="high"{% endif %} alt="{{ hero_alt }}">
+            {% endif %}
           </picture>
           <div class="hero__copy">
             {% if block.settings.eyebrow != blank %}<p class="eyebrow">{{ block.settings.eyebrow | escape }}</p>{% endif %}
@@ -27,14 +42,44 @@
         <article class="hero__slide is-active" data-slide><img src="{{ 'home-hero.jpg' | asset_url }}" width="1916" height="821" loading="eager" fetchpriority="high" alt="Elegant fashion campaign"><div class="hero__copy"><p class="eyebrow">New season</p><h1>New Season,<br>Premium Style</h1><p>Modern fashion for every generation. Timeless looks, everyday moments.</p><a class="button" href="{{ routes.all_products_collection_url }}">Shop now <span aria-hidden="true">→</span></a></div></article>
       {% endfor %}
     </div>
-    {% if slide_blocks.size > 1 %}<button class="slider-arrow slider-arrow--prev" type="button" data-prev aria-label="Previous slide">‹</button><button class="slider-arrow slider-arrow--next" type="button" data-next aria-label="Next slide">›</button><div class="slider-dots" aria-label="Choose slide">{% for block in slide_blocks %}<button type="button" data-dot="{{ forloop.index0 }}"{% if forloop.first %} class="is-active"{% endif %} aria-label="Show slide {{ forloop.index }}"></button>{% endfor %}</div>{% endif %}
+    {% if slide_blocks.size > 1 %}<button class="slider-arrow slider-arrow--prev" type="button" data-prev aria-label="Previous slide">‹</button><button class="slider-arrow slider-arrow--next" type="button" data-next aria-label="Next slide">›</button><div class="slider-controls"><div class="slider-dots" aria-label="Choose slide">{% for block in slide_blocks %}<button type="button" data-dot="{{ forloop.index0 }}"{% if forloop.first %} class="is-active" aria-current="true"{% endif %} aria-label="Show slide {{ forloop.index }}"></button>{% endfor %}</div>{% if section.settings.hero_autoplay %}<button class="slider-toggle" type="button" data-autoplay-toggle aria-label="Pause slideshow">Ⅱ</button>{% endif %}</div>{% endif %}
   </section>
 
   {% if category_blocks.size > 0 %}
     <nav class="category-rail page-width" aria-label="Shop by category">
       {% for block in category_blocks %}
         {% assign chosen_collection = block.settings.collection %}
-        <a href="{{ block.settings.link | default: chosen_collection.url | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}><span>{% assign category_image = block.settings.image | default: chosen_collection.image %}{% if category_image != blank %}{{ category_image | image_url: width: 300 | image_tag: widths: '120, 180, 300', sizes: '110px', loading: 'lazy', alt: block.settings.title }}{% else %}<span class="category-fallback" role="img" aria-label="{{ block.settings.title | escape }}"></span>{% endif %}</span>{{ block.settings.title | default: chosen_collection.title | escape }}</a>
+        {% liquid
+          assign category_image = block.settings.image | default: chosen_collection.image
+          case forloop.index
+            when 1
+              assign category_asset = 'new-in-category-women.png'
+            when 2
+              assign category_asset = 'new-in-category-men.png'
+            when 3
+              assign category_asset = 'new-in-category-girls.png'
+            when 4
+              assign category_asset = 'new-in-category-boys.png'
+            when 5
+              assign category_asset = 'new-in-category-baby.png'
+            when 6
+              assign category_asset = 'new-in-category-toys.png'
+            when 7
+              assign category_asset = 'new-in-category-watches.png'
+            else
+              assign category_asset = 'new-in-category-accessories.png'
+          endcase
+        %}
+        <a href="{{ block.settings.link | default: chosen_collection.url | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+          <span>
+            {% if category_image != blank %}
+              {{ category_image | image_url: width: 300 | image_tag: widths: '120, 180, 300', sizes: '110px', loading: 'lazy', alt: block.settings.title }}
+            {% else %}
+              <img src="{{ category_asset | asset_url }}" width="1254" height="1254" loading="lazy" alt="{{ block.settings.title | escape }}">
+            {% endif %}
+          </span>
+          <strong class="category-rail__label">{{ block.settings.title | default: chosen_collection.title | escape }} <i aria-hidden="true">→</i></strong>
+        </a>
       {% endfor %}
     </nav>
   {% endif %}
@@ -45,8 +90,22 @@
       {% for block in feature_blocks %}
         {% assign chosen_collection = block.settings.collection %}
         <article class="feature-card" {{ block.shopify_attributes }}>
-          {% assign feature_image = block.settings.image | default: chosen_collection.image %}
-          {% if feature_image != blank %}{{ feature_image | image_url: width: 900 | image_tag: widths: '360, 600, 900', sizes: '(max-width: 749px) 48vw, 20vw', loading: 'lazy', alt: block.settings.heading }}{% else %}<span class="feature-fallback" role="img" aria-label="{{ block.settings.heading | escape }}"></span>{% endif %}
+          {% liquid
+            assign feature_image = block.settings.image | default: chosen_collection.image
+            case forloop.index
+              when 1
+                assign feature_asset = 'new-in-feature-eastern-wear.png'
+              when 2
+                assign feature_asset = 'new-in-feature-western-wear.png'
+              when 3
+                assign feature_asset = 'new-in-feature-kids.png'
+              when 4
+                assign feature_asset = 'new-in-feature-baby.png'
+              else
+                assign feature_asset = 'new-in-feature-watches.png'
+            endcase
+          %}
+          {% if feature_image != blank %}{{ feature_image | image_url: width: 900 | image_tag: widths: '360, 600, 900', sizes: '(max-width: 749px) 48vw, 20vw', loading: 'lazy', alt: block.settings.heading }}{% else %}<img src="{{ feature_asset | asset_url }}" width="1448" height="1086" loading="lazy" alt="{{ block.settings.heading | escape }}">{% endif %}
           <div><h3>{{ block.settings.heading | default: chosen_collection.title | escape }}</h3><p>{{ block.settings.text | escape }}</p><a href="{{ block.settings.link | default: chosen_collection.url | default: routes.collections_url }}">Shop now <span aria-hidden="true">→</span></a></div>
         </article>
       {% endfor %}
@@ -54,19 +113,85 @@
   </section>
 
   <section class="home-section page-width" aria-labelledby="Bestsellers-{{ section.id }}">
-    <div class="section-heading"><h2 id="Bestsellers-{{ section.id }}">{{ section.settings.products_heading | escape }}</h2>{% if section.settings.product_collection != blank %}<a href="{{ section.settings.product_collection.url }}">View all <span aria-hidden="true">→</span></a>{% endif %}</div>
+    <div class="section-heading"><h2 id="Bestsellers-{{ section.id }}">{{ section.settings.products_heading | escape }}</h2><a href="{{ section.settings.product_collection.url | default: routes.all_products_collection_url }}">View all <span aria-hidden="true">→</span></a></div>
     <div class="product-grid">
-      {% for product in section.settings.product_collection.products limit: section.settings.products_to_show %}{% render 'product-card', card_product: product %}
-      {% else %}{% for i in (1..4) %}<article class="product-card product-card--placeholder"><div class="product-card__media">{{ 'product-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}</div><div class="product-card__content"><h3>Choose a featured collection</h3><p class="product-card__price"><strong>{{ 4490 | money }}</strong></p><a class="quick-add quick-add--link" href="{{ routes.all_products_collection_url }}">Shop products</a></div></article>{% endfor %}{% endfor %}
+      {% for product in section.settings.product_collection.products limit: section.settings.products_to_show %}
+        {% liquid
+          case forloop.index
+            when 1
+              assign product_fallback_asset = 'new-in-product-womens-suit.png'
+            when 2
+              assign product_fallback_asset = 'new-in-product-mens-shirt.png'
+            when 3
+              assign product_fallback_asset = 'new-in-product-girls-dress.png'
+            when 4
+              assign product_fallback_asset = 'new-in-product-boys-hoodie.png'
+            when 5
+              assign product_fallback_asset = 'new-in-product-sneakers.png'
+            else
+              assign product_fallback_asset = 'new-in-category-accessories.png'
+          endcase
+        %}
+        {% render 'product-card', card_product: product, fallback_asset: product_fallback_asset %}
+      {% else %}
+        {% for i in (1..6) %}
+          {% liquid
+            case i
+              when 1
+                assign product_asset = 'new-in-product-womens-suit.png'
+                assign product_title = 'Embroidered Lawn Suit'
+              when 2
+                assign product_asset = 'new-in-product-mens-shirt.png'
+                assign product_title = 'Classic Oxford Shirt'
+              when 3
+                assign product_asset = 'new-in-product-girls-dress.png'
+                assign product_title = 'Ruffle Dress for Girls'
+              when 4
+                assign product_asset = 'new-in-product-boys-hoodie.png'
+                assign product_title = 'Kids Hoodie'
+              when 5
+                assign product_asset = 'new-in-product-sneakers.png'
+                assign product_title = 'Casual Sneakers'
+              else
+                assign product_asset = 'new-in-category-accessories.png'
+                assign product_title = 'Structured Handbag'
+            endcase
+          %}
+          <article class="product-card product-card--placeholder">
+            <div class="product-card__media"><img src="{{ product_asset | asset_url }}" width="1448" height="1086" loading="lazy" alt="{{ product_title }}"></div>
+            <div class="product-card__content"><h3>{{ product_title }}</h3><p class="product-card__setup">Connect your products in the Theme Editor.</p><a class="quick-add quick-add--link" href="{{ routes.all_products_collection_url }}">Shop products</a></div>
+          </article>
+        {% endfor %}
+      {% endfor %}
     </div>
   </section>
 
-  <section class="campaign page-width" aria-label="{{ section.settings.promo_heading | escape }}">
-    <div class="campaign__copy"><h2>{{ section.settings.promo_heading | escape }}</h2><p>{{ section.settings.promo_text | escape }}</p>{% if section.settings.promo_button != blank %}<a class="button" href="{{ section.settings.promo_link | default: routes.all_products_collection_url }}">{{ section.settings.promo_button | escape }} <span aria-hidden="true">→</span></a>{% endif %}</div>
-    {% if section.settings.promo_image != blank %}{{ section.settings.promo_image | image_url: width: 2000 | image_tag: widths: '750, 1200, 1600, 2000', sizes: '100vw', loading: 'lazy', alt: section.settings.promo_heading }}{% else %}<img src="{{ 'home-campaign.jpg' | asset_url }}" width="1916" height="821" loading="lazy" alt="Folded embroidered fabrics">{% endif %}
+  <section class="promo-grid page-width" aria-label="Special offers">
+    <article class="promo-card promo-card--bundle">
+      {% if section.settings.bundle_image != blank %}{{ section.settings.bundle_image | image_url: width: 1200 | image_tag: widths: '500, 800, 1200', sizes: '(max-width: 749px) 85vw, 33vw', loading: 'lazy', alt: section.settings.bundle_heading }}{% else %}<img src="{{ 'new-in-promo-bundle.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="Folded clothing bundle">{% endif %}
+      <div class="promo-card__copy"><h2>{{ section.settings.bundle_heading | escape }}</h2><p>{{ section.settings.bundle_text | escape }}</p>{% if section.settings.bundle_button != blank %}<a class="button" href="{{ section.settings.bundle_link | default: routes.all_products_collection_url }}">{{ section.settings.bundle_button | escape }} <span aria-hidden="true">→</span></a>{% endif %}</div>
+    </article>
+    <article class="promo-card promo-card--buy-two">
+      {% if section.settings.promo_image != blank %}{{ section.settings.promo_image | image_url: width: 1200 | image_tag: widths: '500, 800, 1200', sizes: '(max-width: 749px) 85vw, 33vw', loading: 'lazy', alt: section.settings.promo_heading }}{% else %}<img src="{{ 'new-in-promo-buy-two.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="Clothing selected for a multibuy offer">{% endif %}
+      <div class="promo-card__copy"><h2>{{ section.settings.promo_heading | escape }}</h2><p>{{ section.settings.promo_text | escape }}</p>{% if section.settings.promo_button != blank %}<a class="button" href="{{ section.settings.promo_link | default: routes.all_products_collection_url }}">{{ section.settings.promo_button | escape }} <span aria-hidden="true">→</span></a>{% endif %}</div>
+    </article>
+    <article class="promo-card promo-card--newsletter">
+      {% if section.settings.signup_image != blank %}{{ section.settings.signup_image | image_url: width: 1200 | image_tag: widths: '500, 800, 1200', sizes: '(max-width: 749px) 85vw, 33vw', loading: 'lazy', alt: section.settings.signup_heading }}{% else %}<img src="{{ 'new-in-promo-newsletter.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="Botanical newsletter background">{% endif %}
+      <div class="promo-card__copy"><h2>{{ section.settings.signup_heading | escape }}</h2><p>{{ section.settings.signup_text | escape }}</p>{% form 'customer', class: 'promo-signup' %}<input type="hidden" name="contact[tags]" value="newsletter"><label class="visually-hidden" for="PromoEmail-{{ section.id }}">Email address</label><input id="PromoEmail-{{ section.id }}" type="email" name="contact[email]" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="Enter your email address" autocomplete="email" required><button type="submit" aria-label="Subscribe">→</button>{% if form.posted_successfully? %}<p class="form-message" role="status">Thanks for signing up.</p>{% endif %}{% if form.errors %}<div class="form-message" role="alert">{{ form.errors | default_errors }}</div>{% endif %}{% endform %}</div>
+    </article>
   </section>
 
   {% if brand_blocks.size > 0 %}<section class="brand-rail page-width" aria-labelledby="Brands-{{ section.id }}"><h2 id="Brands-{{ section.id }}">{{ section.settings.brands_heading | escape }}</h2><div>{% for block in brand_blocks %}<a href="{{ block.settings.link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>{% if block.settings.logo %}{{ block.settings.logo | image_url: width: 240 | image_tag: widths: '120, 180, 240', sizes: '120px', loading: 'lazy', alt: block.settings.name }}{% else %}<span>{{ block.settings.name | escape }}</span>{% endif %}</a>{% endfor %}</div></section>{% endif %}
+
+  <section class="home-section kids-collections page-width" aria-labelledby="Kids-{{ section.id }}">
+    <div class="section-heading"><h2 id="Kids-{{ section.id }}">{{ section.settings.kids_heading | escape }}</h2><a href="{{ section.settings.kids_link | default: routes.collections_url }}">View all <span aria-hidden="true">→</span></a></div>
+    <div class="kids-grid">
+      <a class="kids-card" href="{{ section.settings.toys_link | default: routes.all_products_collection_url }}"><img src="{{ 'new-in-kids-toys.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="Teddy bear and wooden toys"><span><strong>Toys &amp; Games</strong><small>Learning through play</small><b>Shop Toys →</b></span></a>
+      <a class="kids-card" href="{{ section.settings.girls_link | default: routes.all_products_collection_url }}"><img src="{{ 'new-in-kids-girls.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="Girl wearing a pink floral dress"><span><strong>Girls Collection</strong><small>Cute styles for bright personalities</small><b>Shop Girls →</b></span></a>
+      <a class="kids-card" href="{{ section.settings.boys_link | default: routes.all_products_collection_url }}"><img src="{{ 'new-in-kids-boys.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="Boy wearing a blue shirt"><span><strong>Boys Collection</strong><small>Made for adventure</small><b>Shop Boys →</b></span></a>
+      <a class="kids-card" href="{{ section.settings.baby_link | default: routes.all_products_collection_url }}"><img src="{{ 'new-in-kids-baby.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="Baby wearing a soft teddy outfit"><span><strong>Baby Collection</strong><small>Softness for every little milestone</small><b>Shop Baby →</b></span></a>
+    </div>
+  </section>
 
   <section class="trust-strip page-width" aria-label="Store benefits">
     <div><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 2 8 3v6c0 5-3 9-8 11-5-2-8-6-8-11V5l8-3Zm-4 10 3 3 5-6"/></svg><span><strong>Authentic products</strong><small>Quality you can trust</small></span></div>
@@ -75,12 +200,15 @@
     <div><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 6h11v11H3zM14 10h4l3 3v4h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg><span><strong>Fast delivery</strong><small>{{ section.settings.delivery_text | escape }}</small></span></div>
   </section>
 </div>
-<nav class="mobile-dock" aria-label="Quick navigation"><a href="{{ routes.root_url }}" aria-current="page"><span aria-hidden="true">⌂</span>Home</a><a href="{{ routes.collections_url }}"><span aria-hidden="true">▦</span>Categories</a><a href="{{ routes.search_url }}"><span aria-hidden="true">⌕</span>Search</a>{% if section.settings.mobile_wishlist_link != blank %}<a href="{{ section.settings.mobile_wishlist_link }}"><span aria-hidden="true">♡</span>Wishlist</a>{% endif %}<a href="{{ routes.cart_url }}"><span aria-hidden="true">🛒</span>Cart{% if cart.item_count > 0 %}<b>{{ cart.item_count }}</b>{% endif %}</a></nav>
+<nav class="mobile-dock" aria-label="Quick navigation"><a href="{{ routes.root_url }}" aria-current="page"><span aria-hidden="true">⌂</span>New In</a><a href="{{ routes.collections_url }}"><span aria-hidden="true">▦</span>Categories</a><a href="{{ routes.search_url }}"><span aria-hidden="true">⌕</span>Search</a>{% if section.settings.mobile_wishlist_link != blank %}<a href="{{ section.settings.mobile_wishlist_link }}"><span aria-hidden="true">♡</span>Wishlist</a>{% endif %}<a href="{{ routes.cart_url }}"><span aria-hidden="true">🛒</span>Cart{% if cart.item_count > 0 %}<b>{{ cart.item_count }}</b>{% endif %}</a></nav>
 
 {% schema %}
 {
-  "name": "Homepage",
+  "name": "New In landing page",
   "settings": [
+    { "type": "header", "content": "Hero slideshow" },
+    { "type": "checkbox", "id": "hero_autoplay", "label": "Auto-rotate slides", "default": true },
+    { "type": "range", "id": "hero_speed", "label": "Change slide every", "min": 3, "max": 9, "step": 1, "unit": "s", "default": 5 },
     { "type": "header", "content": "Featured collections" },
     { "type": "text", "id": "featured_heading", "label": "Heading", "default": "Featured Collections" },
     { "type": "url", "id": "featured_link", "label": "View all link" },
@@ -88,14 +216,29 @@
     { "type": "text", "id": "products_heading", "label": "Heading", "default": "Bestsellers" },
     { "type": "collection", "id": "product_collection", "label": "Collection" },
     { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 4, "max": 10, "step": 1, "default": 6 },
-    { "type": "header", "content": "Campaign" },
+    { "type": "header", "content": "Offers" },
+    { "type": "image_picker", "id": "bundle_image", "label": "Bundle deal image" },
+    { "type": "text", "id": "bundle_heading", "label": "Bundle heading", "default": "Bundle Deals" },
+    { "type": "text", "id": "bundle_text", "label": "Bundle text", "default": "More Style, More Savings" },
+    { "type": "text", "id": "bundle_button", "label": "Bundle button", "default": "Shop Bundle Deals" },
+    { "type": "url", "id": "bundle_link", "label": "Bundle link" },
     { "type": "image_picker", "id": "promo_image", "label": "Image" },
     { "type": "text", "id": "promo_heading", "label": "Heading", "default": "Buy 2, Get 1 Free" },
     { "type": "text", "id": "promo_text", "label": "Text", "default": "Across selected categories" },
     { "type": "text", "id": "promo_button", "label": "Button label", "default": "Shop now" },
     { "type": "url", "id": "promo_link", "label": "Button link" },
+    { "type": "image_picker", "id": "signup_image", "label": "Signup image" },
+    { "type": "text", "id": "signup_heading", "label": "Signup heading", "default": "Extra 10% Off with Signup" },
+    { "type": "text", "id": "signup_text", "label": "Signup text", "default": "Join our newsletter and get 10% off your first order." },
     { "type": "header", "content": "Brands and benefits" },
     { "type": "text", "id": "brands_heading", "label": "Brands heading", "default": "Featured Brands" },
+    { "type": "header", "content": "Toys and kids collections" },
+    { "type": "text", "id": "kids_heading", "label": "Heading", "default": "Toys & Kids Collections" },
+    { "type": "url", "id": "kids_link", "label": "View all link" },
+    { "type": "url", "id": "toys_link", "label": "Toys link" },
+    { "type": "url", "id": "girls_link", "label": "Girls link" },
+    { "type": "url", "id": "boys_link", "label": "Boys link" },
+    { "type": "url", "id": "baby_link", "label": "Baby link" },
     { "type": "text", "id": "returns_text", "label": "Returns note", "default": "Hassle-free returns" },
     { "type": "text", "id": "delivery_text", "label": "Delivery note", "default": "Reliable nationwide delivery" },
     { "type": "url", "id": "mobile_wishlist_link", "label": "Mobile wishlist app link" }
@@ -121,8 +264,10 @@
       { "type": "image_picker", "id": "logo", "label": "Logo" }, { "type": "text", "id": "name", "label": "Name", "default": "Brand name" }, { "type": "url", "id": "link", "label": "Link" }
     ] }
   ],
-  "presets": [{ "name": "Homepage", "blocks": [
-    { "type": "slide" },
+  "presets": [{ "name": "New In landing page", "blocks": [
+    { "type": "slide", "settings": { "eyebrow": "New season", "heading": "New Season, Premium Style", "button_label": "Shop now", "badge": "Flat\n20% Off" } },
+    { "type": "slide", "settings": { "eyebrow": "The festive edit", "heading": "Modern Grace, Crafted for You", "button_label": "Shop Women", "badge": "New\nIn" } },
+    { "type": "slide", "settings": { "eyebrow": "Refined essentials", "heading": "Menswear for Every Moment", "button_label": "Shop Men", "badge": "Fresh\nEdit" } },
     { "type": "category", "settings": { "title": "Women" } }, { "type": "category", "settings": { "title": "Men" } }, { "type": "category", "settings": { "title": "Girls" } }, { "type": "category", "settings": { "title": "Boys" } },
     { "type": "category", "settings": { "title": "Baby" } }, { "type": "category", "settings": { "title": "Toys" } }, { "type": "category", "settings": { "title": "Watches" } }, { "type": "category", "settings": { "title": "Accessories" } },
     { "type": "feature", "settings": { "heading": "Eastern Wear", "text": "Elegant traditions for modern you." } }, { "type": "feature", "settings": { "heading": "Western Wear", "text": "Everyday style reimagined." } },

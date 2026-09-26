@@ -1,7 +1,7 @@
 <footer class="site-footer">
   {% if section.settings.show_newsletter %}
     <div class="footer-newsletter page-width">
-      <div><h2>{{ section.settings.newsletter_heading | escape }}</h2><p>{{ section.settings.newsletter_text | escape }}</p></div>
+      <div class="footer-newsletter__copy"><h2>{{ section.settings.newsletter_heading | escape }}</h2><p>{{ section.settings.newsletter_text | escape }}</p></div>
       {% form 'customer', class: 'newsletter-form' %}
         <input type="hidden" name="contact[tags]" value="newsletter">
         <label class="visually-hidden" for="FooterEmail-{{ section.id }}">Email address</label>
@@ -10,20 +10,39 @@
         {% if form.posted_successfully? %}<p class="form-message" role="status">Thanks for subscribing.</p>{% endif %}
         {{ form.errors | default_errors }}
       {% endform %}
+      <div class="footer-social"><strong>Follow Us</strong><div>
+        {% if section.settings.instagram_url != blank %}<a href="{{ section.settings.instagram_url }}" aria-label="Instagram">{% else %}<span aria-label="Instagram">{% endif %}<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>{% if section.settings.instagram_url != blank %}</a>{% else %}</span>{% endif %}
+        {% if section.settings.facebook_url != blank %}<a href="{{ section.settings.facebook_url }}" aria-label="Facebook">{% else %}<span aria-label="Facebook">{% endif %}<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 8h4V3h-4c-3.3 0-6 2.7-6 6v3H4v5h4v4h5v-4h4l1-5h-5V9c0-.6.4-1 1-1Z"/></svg>{% if section.settings.facebook_url != blank %}</a>{% else %}</span>{% endif %}
+        {% if section.settings.youtube_url != blank %}<a href="{{ section.settings.youtube_url }}" aria-label="YouTube">{% else %}<span aria-label="YouTube">{% endif %}<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M21 8.2a3 3 0 0 0-2.1-2.1C17 5.6 12 5.6 12 5.6s-5 0-6.9.5A3 3 0 0 0 3 8.2 31 31 0 0 0 2.6 12 31 31 0 0 0 3 15.8a3 3 0 0 0 2.1 2.1c1.9.5 6.9.5 6.9.5s5 0 6.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .4-3.8 31 31 0 0 0-.4-3.8Z"/><path class="footer-social__play" d="m10 9 5 3-5 3Z"/></svg>{% if section.settings.youtube_url != blank %}</a>{% else %}</span>{% endif %}
+        {% if section.settings.pinterest_url != blank %}<a href="{{ section.settings.pinterest_url }}" aria-label="Pinterest">{% else %}<span aria-label="Pinterest">{% endif %}<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10.5 17c1.5-2.4 1.2-4.6 2.2-7.2.5-1.3 2.6-1.1 2.6.5 0 2.1-2.2 3.6-4 2.5-1.5-.9-2.2-2.7-1.6-4.5.8-2.3 4.6-3.2 6.4-1.1"/></svg>{% if section.settings.pinterest_url != blank %}</a>{% else %}</span>{% endif %}
+        {% if section.settings.tiktok_url != blank %}<a href="{{ section.settings.tiktok_url }}" aria-label="TikTok">{% else %}<span aria-label="TikTok">{% endif %}<svg aria-hidden="true" viewBox="0 0 24 24"><path fill="none" d="M14 4v10.5a4.5 4.5 0 1 1-4-4.5M14 4c.7 3 2.3 4.5 5 5"/></svg>{% if section.settings.tiktok_url != blank %}</a>{% else %}</span>{% endif %}
+      </div></div>
     </div>
   {% endif %}
+
   <div class="site-footer__inner page-width">
-    <div class="footer-brand"><a class="site-logo" href="{{ routes.root_url }}"><svg class="site-logo__botanical" aria-hidden="true" viewBox="0 0 42 54"><path class="stem" d="M21 52c1-15 0-30-2-48M20 30c-7-4-11-9-13-15M20 22c7-4 11-9 13-15M20 39c-5-2-9-5-12-10M21 43c6-3 10-7 13-13"/><path class="leaf leaf--green" d="M7 15c7 0 10 4 12 10-7 0-11-4-12-10Zm27-8c-7 1-10 5-13 11 7-1 11-5 13-11ZM8 29c6 0 9 3 11 8-6 0-10-3-11-8Zm26 1c-6 0-10 4-12 10 7 0 11-4 12-10Z"/><path class="leaf leaf--peach" d="M15 4c4 3 5 7 4 13-5-3-6-8-4-13ZM3 22c5-1 10 1 14 6-6 2-11 0-14-6Zm35-5c-5 0-9 3-12 8 6 1 10-2 12-8Z"/></svg><span><strong>{{ section.settings.brand_name | escape }}</strong><small>{{ section.settings.tagline | escape }}</small></span></a><p>{{ section.settings.brand_text | escape }}</p></div>
-    {% for i in (1..3) %}
-      {% liquid
-        assign menu_key = 'menu_' | append: i
-        assign menu = section.settings[menu_key]
-      %}
-      {% if menu != blank %}<nav aria-label="{{ menu.title | escape }}"><h3>{{ menu.title | escape }}</h3><ul>{% for link in menu.links %}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{% endfor %}</ul></nav>{% endif %}
-    {% endfor %}
-    <div class="footer-payments"><h3>We accept</h3><div>{% for type in shop.enabled_payment_types %}{{ type | payment_type_svg_tag: class: 'payment-icon' }}{% endfor %}</div></div>
+    <div class="footer-brand">
+      <a class="site-logo" href="{{ routes.root_url }}"><svg class="site-logo__botanical" aria-hidden="true" viewBox="0 0 42 54"><path class="stem" d="M21 52c1-15 0-30-2-48M20 30c-7-4-11-9-13-15M20 22c7-4 11-9 13-15M20 39c-5-2-9-5-12-10M21 43c6-3 10-7 13-13"/><path class="leaf leaf--green" d="M7 15c7 0 10 4 12 10-7 0-11-4-12-10Zm27-8c-7 1-10 5-13 11 7-1 11-5 13-11ZM8 29c6 0 9 3 11 8-6 0-10-3-11-8Zm26 1c-6 0-10 4-12 10 7 0 11-4 12-10Z"/><path class="leaf leaf--peach" d="M15 4c4 3 5 7 4 13-5-3-6-8-4-13ZM3 22c5-1 10 1 14 6-6 2-11 0-14-6Zm35-5c-5 0-9 3-12 8 6 1 10-2 12-8Z"/></svg><span><strong>{{ section.settings.brand_name | escape }}</strong><small>{{ section.settings.tagline | escape }}</small></span></a>
+      <p>{{ section.settings.brand_text | escape }}</p>
+    </div>
+
+    <nav class="footer-shop" aria-label="Shop"><h3>Shop</h3>
+      {% if section.settings.menu_1 != blank %}<ul>{% for link in section.settings.menu_1.links %}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{% endfor %}</ul>
+      {% else %}<ul><li><a href="{{ routes.search_url }}?q=women&amp;type=product">Women</a></li><li><a href="{{ routes.search_url }}?q=men&amp;type=product">Men</a></li><li><a href="{{ routes.search_url }}?q=girls&amp;type=product">Girls</a></li><li><a href="{{ routes.search_url }}?q=boys&amp;type=product">Boys</a></li><li><a href="{{ routes.search_url }}?q=baby&amp;type=product">Baby</a></li><li><a href="{{ routes.search_url }}?q=toys&amp;type=product">Toys</a></li><li><a href="{{ routes.search_url }}?q=watches&amp;type=product">Watches</a></li><li><a href="{{ routes.search_url }}?q=accessories&amp;type=product">Accessories</a></li><li><a href="{{ routes.search_url }}?q=sale&amp;type=product">Sale</a></li></ul>{% endif %}
+    </nav>
+
+    <nav aria-label="Help"><h3>Help</h3>
+      {% if section.settings.menu_2 != blank %}<ul>{% for link in section.settings.menu_2.links %}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{% endfor %}</ul>
+      {% else %}<ul><li><a href="{{ routes.account_url }}">Track Your Order</a></li><li><a href="{{ shop.refund_policy.url | default: routes.root_url }}">Returns &amp; Exchanges</a></li><li><a href="/pages/size-guide">Size Guide</a></li><li><a href="/pages/faqs">FAQs</a></li><li><a href="/pages/contact">Contact Us</a></li></ul>{% endif %}
+    </nav>
+
+    <nav aria-label="About"><h3>About</h3>
+      {% if section.settings.menu_3 != blank %}<ul>{% for link in section.settings.menu_3.links %}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{% endfor %}</ul>
+      {% else %}<ul><li><a href="/pages/about-us">Our Story</a></li><li><a href="/pages/sustainability">Sustainability</a></li><li><a href="/pages/store-locator">Store Locator</a></li><li><a href="/pages/careers">Careers</a></li><li><a href="/blogs/news">Press</a></li></ul>{% endif %}
+    </nav>
+
+    <div class="footer-payments"><h3>We Accept</h3><div>{% for type in shop.enabled_payment_types %}{{ type | payment_type_svg_tag: class: 'payment-icon' }}{% endfor %}</div><small>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.brand_name | escape }}. All rights reserved.</small>{% if section.settings.policies %}<nav class="footer-policies" aria-label="Policies"><ul>{% for policy in shop.policies %}{% if policy != blank %}<li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>{% endif %}{% endfor %}</ul></nav>{% endif %}</div>
   </div>
-  <div class="footer-bottom page-width"><small>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.brand_name | escape }}. All rights reserved.</small>{% if section.settings.policies %}<nav aria-label="Policies"><ul>{% for policy in shop.policies %}{% if policy != blank %}<li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>{% endif %}{% endfor %}</ul></nav>{% endif %}</div>
 </footer>
 
 {% schema %}
@@ -31,15 +50,21 @@
   "name": "Footer",
   "settings": [
     { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter", "default": true },
-    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Join our family" },
+    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Join the Jhoom Family" },
     { "type": "text", "id": "newsletter_text", "label": "Newsletter text", "default": "Get exclusive offers, new arrivals and style inspiration." },
     { "type": "text", "id": "brand_name", "label": "Brand name", "default": "Jhoom" },
     { "type": "text", "id": "tagline", "label": "Brand tagline", "default": "Style for every story" },
     { "type": "text", "id": "brand_text", "label": "Brand description", "default": "Fashion, family and a brighter tomorrow." },
-    { "type": "link_list", "id": "menu_1", "label": "First menu", "default": "footer" },
-    { "type": "link_list", "id": "menu_2", "label": "Second menu" },
-    { "type": "link_list", "id": "menu_3", "label": "Third menu" },
-    { "type": "checkbox", "id": "policies", "label": "Show policy links", "default": true }
+    { "type": "link_list", "id": "menu_1", "label": "Shop menu" },
+    { "type": "link_list", "id": "menu_2", "label": "Help menu" },
+    { "type": "link_list", "id": "menu_3", "label": "About menu" },
+    { "type": "header", "content": "Social media" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram" },
+    { "type": "url", "id": "facebook_url", "label": "Facebook" },
+    { "type": "url", "id": "youtube_url", "label": "YouTube" },
+    { "type": "url", "id": "pinterest_url", "label": "Pinterest" },
+    { "type": "url", "id": "tiktok_url", "label": "TikTok" },
+    { "type": "checkbox", "id": "policies", "label": "Show policy links", "default": false }
   ]
 }
 {% endschema %}

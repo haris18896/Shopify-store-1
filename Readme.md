@@ -69,3 +69,19 @@ The homepage uses real Shopify catalog data. Before evaluating the complete layo
 - Collection images
 - A main navigation menu
 - A footer navigation menu
+
+
+
+### Steps
+1. Go to the [Shopify Dev Dashboard](https://dev.shopify.com/dashboard)
+2. Create a free store for development
+3. `npm install -g @shopify/cli@latest` in your mac book terminal
+4. `shopify version` -> in terminal
+5. connect it with the dev store created `jhoom-lrc2eypk`
+6. run
+```sh
+shopify theme dev \
+  --path . \
+  --store jhoom-lrc2eypk.myshopify.com \
+  --open
+  ```

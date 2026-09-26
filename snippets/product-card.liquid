@@ -13,7 +13,11 @@
     <a href="{{ card_product.url }}" aria-label="{{ card_product.title | escape }}">
       {% if card_product.featured_image %}
         {{ card_product.featured_image | image_url: width: 700 | image_tag: widths: '220, 360, 500, 700', sizes: '(max-width: 749px) 43vw, 18vw', loading: 'lazy', alt: card_product.featured_image.alt | default: card_product.title }}
-      {% else %}{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
+      {% elsif fallback_asset != blank %}
+        <img src="{{ fallback_asset | asset_url }}" width="1448" height="1086" loading="lazy" alt="{{ card_product.title | escape }}">
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
     </a>
     {% if discount > 0 %}<span class="product-card__sale">-{{ discount }}%</span>{% endif %}
   </div>
