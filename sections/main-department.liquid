@@ -5,9 +5,37 @@
   assign category_blocks = section.blocks | where: 'type', 'shop_category'
   assign promo_blocks = section.blocks | where: 'type', 'promo'
   assign product_source = section.settings.product_collection | default: collection
+  assign department_handle = collection.handle | default: 'women'
+
+  case department_handle
+    when 'men'
+      assign fallback_assets = 'new-in-product-mens-shirt.png,new-in-feature-western-wear.png,new-in-feature-eastern-wear.png,new-in-category-men.png,new-in-product-sneakers.png,new-in-feature-watches.png' | split: ','
+      assign fallback_titles = 'Classic Oxford Shirt,Everyday T-Shirt,Embroidered Kurta,Tailored Trousers,Casual Sneakers,Classic Watch' | split: ','
+    when 'girls'
+      assign fallback_assets = 'new-in-product-girls-dress.png,new-in-kids-girls.png,new-in-feature-kids.png,new-in-category-girls.png,new-in-product-sneakers.png,new-in-category-accessories.png' | split: ','
+      assign fallback_titles = 'Floral Cotton Dress,Party Dress,Everyday Set,Girls Essentials,Casual Sneakers,Hair Accessories' | split: ','
+    when 'boys'
+      assign fallback_assets = 'new-in-product-boys-hoodie.png,new-in-kids-boys.png,new-in-feature-kids.png,new-in-category-boys.png,new-in-product-sneakers.png,new-in-category-accessories.png' | split: ','
+      assign fallback_titles = 'Essential Hoodie,Casual Shirt,Everyday Set,Boys Essentials,Casual Sneakers,Kids Accessories' | split: ','
+    when 'baby'
+      assign fallback_assets = 'new-in-kids-baby.png,new-in-feature-baby.png,new-in-category-baby.png,new-in-kids-baby.png,new-in-feature-kids.png,new-in-category-accessories.png' | split: ','
+      assign fallback_titles = 'Knitted Romper,Baby Essentials,Newborn Set,Soft Layers,Playtime Essentials,Baby Accessories' | split: ','
+    when 'toys'
+      assign fallback_assets = 'new-in-kids-toys.png,new-in-category-toys.png,new-in-feature-kids.png,new-in-kids-toys.png,new-in-category-toys.png,new-in-category-accessories.png' | split: ','
+      assign fallback_titles = 'Cuddly Teddy Bear,Educational Toys,Creative Play Set,Soft Toys,Outdoor Toys,Gift Ideas' | split: ','
+    when 'watches'
+      assign fallback_assets = 'new-in-feature-watches.png,new-in-category-watches.png,new-in-feature-watches.png,new-in-category-watches.png,new-in-category-accessories.png,new-in-feature-watches.png' | split: ','
+      assign fallback_titles = 'Classic Analog Watch,Minimal Watch,Everyday Timepiece,Statement Watch,Watch Accessories,Premium Watch' | split: ','
+    when 'accessories'
+      assign fallback_assets = 'women-gold-accessories.jpg,women-classic-black-handbag.jpg,women-beige-handbag-editorial.jpg,women-nude-heels.jpg,new-in-category-watches.png,new-in-category-accessories.png' | split: ','
+      assign fallback_titles = 'Gold Jewellery,Structured Handbag,Everyday Bag,Pointed-Toe Heels,Classic Watch,Statement Accessories' | split: ','
+    else
+      assign fallback_assets = 'women-blush-lawn-suit.jpg,women-sage-floral-dress.jpg,women-ivory-black-pret.jpg,women-lavender-pret.jpg,women-classic-black-handbag.jpg,women-nude-heels.jpg' | split: ','
+      assign fallback_titles = 'Embroidered Lawn Suit,Floral Maxi Dress,Embroidered Pret,Lavender Pret,Structured Handbag,Pointed-Toe Heels' | split: ','
+  endcase
 %}
 
-<div class="department" data-department-section="{{ section.id }}">
+<div class="department department--{{ department_handle | handle }}" data-department-section="{{ section.id }}">
   {% render 'hero-slider', slide_blocks: slide_blocks, section_id: section.id, autoplay: section.settings.hero_autoplay, speed: section.settings.hero_speed %}
   {% render 'category-rail', category_blocks: circle_blocks %}
 
@@ -57,8 +85,6 @@
       {% for product in product_source.products limit: section.settings.products_to_show %}
         {% render 'product-card', card_product: product %}
       {% else %}
-        {% assign fallback_assets = 'women-blush-lawn-suit.jpg,women-sage-floral-dress.jpg,women-ivory-black-pret.jpg,women-lavender-pret.jpg,women-classic-black-handbag.jpg,women-nude-heels.jpg' | split: ',' %}
-        {% assign fallback_titles = 'Embroidered Lawn Suit,Floral Maxi Dress,Embroidered Pret,Lavender Pret,Structured Handbag,Pointed-Toe Heels' | split: ',' %}
         {% for fallback_asset in fallback_assets %}
           <article class="product-card product-card--placeholder">
             <div class="product-card__media"><img src="{{ fallback_asset | asset_url }}" width="1122" height="1402" loading="lazy" alt="{{ fallback_titles[forloop.index0] }}"></div>
@@ -128,7 +154,7 @@
       ]
     },
     {
-      "type": "circle", "name": "Circular category", "limit": 8,
+      "type": "circle", "name": "Circular category", "limit": 10,
       "settings": [
         { "type": "collection", "id": "collection", "label": "Collection" },
         { "type": "image_picker", "id": "image", "label": "Custom image" },
@@ -140,28 +166,36 @@
           { "value": "new-in-category-men.png", "label": "Men" }, { "value": "new-in-category-girls.png", "label": "Girls" },
           { "value": "new-in-category-boys.png", "label": "Boys" }, { "value": "new-in-category-baby.png", "label": "Baby" },
           { "value": "new-in-category-toys.png", "label": "Toys" }, { "value": "new-in-category-watches.png", "label": "Watches" },
-          { "value": "new-in-category-accessories.png", "label": "Accessories" }
+          { "value": "new-in-category-accessories.png", "label": "Accessories" },
+          { "value": "new-in-product-mens-shirt.png", "label": "Men's shirt" }, { "value": "new-in-product-girls-dress.png", "label": "Girls dress" },
+          { "value": "new-in-product-boys-hoodie.png", "label": "Boys hoodie" }, { "value": "new-in-product-sneakers.png", "label": "Sneakers" },
+          { "value": "new-in-kids-baby.png", "label": "Baby editorial" }, { "value": "new-in-kids-toys.png", "label": "Toys editorial" },
+          { "value": "new-in-feature-eastern-wear.png", "label": "Eastern wear" }, { "value": "new-in-feature-western-wear.png", "label": "Western wear" }
         ] },
         { "type": "text", "id": "title", "label": "Title", "default": "Category" },
         { "type": "url", "id": "link", "label": "Custom link" }
       ]
     },
     {
-      "type": "trend", "name": "Trending card", "limit": 4,
+      "type": "trend", "name": "Trending card", "limit": 5,
       "settings": [
         { "type": "collection", "id": "collection", "label": "Collection" }, { "type": "image_picker", "id": "image", "label": "Custom image" },
         { "type": "select", "id": "asset", "label": "Built-in fallback", "default": "women-blush-lawn-suit.jpg", "options": [
           { "value": "women-blush-lawn-suit.jpg", "label": "Blush lawn suit" }, { "value": "women-sage-floral-dress.jpg", "label": "Sage floral" },
           { "value": "women-ivory-black-pret.jpg", "label": "Ivory pret" }, { "value": "women-pastel-unstitched.jpg", "label": "Unstitched fabrics" },
           { "value": "new-in-feature-eastern-wear.png", "label": "Eastern wear" }, { "value": "new-in-feature-western-wear.png", "label": "Western wear" },
-          { "value": "new-in-feature-kids.png", "label": "Kids" }, { "value": "new-in-feature-watches.png", "label": "Watches" }
+          { "value": "new-in-feature-kids.png", "label": "Kids" }, { "value": "new-in-feature-baby.png", "label": "Baby" }, { "value": "new-in-feature-watches.png", "label": "Watches" },
+          { "value": "new-in-product-mens-shirt.png", "label": "Men's shirt" }, { "value": "new-in-product-girls-dress.png", "label": "Girls dress" },
+          { "value": "new-in-product-boys-hoodie.png", "label": "Boys hoodie" }, { "value": "new-in-product-sneakers.png", "label": "Sneakers" },
+          { "value": "new-in-kids-baby.png", "label": "Baby editorial" }, { "value": "new-in-kids-toys.png", "label": "Toys editorial" },
+          { "value": "new-in-category-accessories.png", "label": "Accessories" }
         ] },
         { "type": "text", "id": "heading", "label": "Heading", "default": "The new edit" }, { "type": "text", "id": "text", "label": "Text", "default": "Everyday style, thoughtfully made." },
         { "type": "text", "id": "button_label", "label": "Button", "default": "Shop now" }, { "type": "url", "id": "link", "label": "Link" }
       ]
     },
     {
-      "type": "shop_category", "name": "Shop category", "limit": 8,
+      "type": "shop_category", "name": "Shop category", "limit": 10,
       "settings": [
         { "type": "collection", "id": "collection", "label": "Collection" }, { "type": "image_picker", "id": "image", "label": "Custom image" },
         { "type": "select", "id": "asset", "label": "Built-in fallback", "default": "women-blush-lawn-suit.jpg", "options": [
@@ -172,7 +206,12 @@
           { "value": "new-in-category-women.png", "label": "Women" }, { "value": "new-in-category-men.png", "label": "Men" },
           { "value": "new-in-category-girls.png", "label": "Girls" }, { "value": "new-in-category-boys.png", "label": "Boys" },
           { "value": "new-in-category-baby.png", "label": "Baby" }, { "value": "new-in-category-toys.png", "label": "Toys" },
-          { "value": "new-in-category-watches.png", "label": "Watches" }, { "value": "new-in-category-accessories.png", "label": "Accessories" }
+          { "value": "new-in-category-watches.png", "label": "Watches" }, { "value": "new-in-category-accessories.png", "label": "Accessories" },
+          { "value": "new-in-product-mens-shirt.png", "label": "Men's shirt" }, { "value": "new-in-product-girls-dress.png", "label": "Girls dress" },
+          { "value": "new-in-product-boys-hoodie.png", "label": "Boys hoodie" }, { "value": "new-in-kids-baby.png", "label": "Baby editorial" },
+          { "value": "new-in-kids-toys.png", "label": "Toys editorial" }, { "value": "new-in-feature-eastern-wear.png", "label": "Eastern wear" },
+          { "value": "new-in-feature-western-wear.png", "label": "Western wear" }, { "value": "new-in-feature-kids.png", "label": "Kids" },
+          { "value": "new-in-feature-baby.png", "label": "Baby" }, { "value": "new-in-feature-watches.png", "label": "Watches editorial" }
         ] },
         { "type": "text", "id": "title", "label": "Title", "default": "Category" }, { "type": "text", "id": "button_label", "label": "Button", "default": "Shop now" }, { "type": "url", "id": "link", "label": "Link" }
       ]
@@ -187,7 +226,12 @@
           { "value": "new-in-kids-toys.png", "label": "Toys" }, { "value": "new-in-kids-girls.png", "label": "Girls" },
           { "value": "new-in-kids-boys.png", "label": "Boys" }, { "value": "new-in-kids-baby.png", "label": "Baby" },
           { "value": "new-in-feature-watches.png", "label": "Watches" }, { "value": "new-in-feature-eastern-wear.png", "label": "Eastern wear" },
-          { "value": "new-in-feature-western-wear.png", "label": "Western wear" }, { "value": "new-in-category-accessories.png", "label": "Accessories" }
+          { "value": "new-in-feature-western-wear.png", "label": "Western wear" }, { "value": "new-in-category-accessories.png", "label": "Accessories" },
+          { "value": "new-in-product-mens-shirt.png", "label": "Men's shirt" }, { "value": "new-in-product-girls-dress.png", "label": "Girls dress" },
+          { "value": "new-in-product-boys-hoodie.png", "label": "Boys hoodie" }, { "value": "new-in-product-sneakers.png", "label": "Sneakers" },
+          { "value": "new-in-category-men.png", "label": "Men" }, { "value": "new-in-category-girls.png", "label": "Girls category" },
+          { "value": "new-in-category-boys.png", "label": "Boys category" }, { "value": "new-in-category-baby.png", "label": "Baby category" },
+          { "value": "new-in-category-toys.png", "label": "Toys category" }, { "value": "new-in-category-watches.png", "label": "Watches category" }
         ] },
         { "type": "text", "id": "heading", "label": "Heading", "default": "The everyday edit" }, { "type": "text", "id": "text", "label": "Text", "default": "Considered style for every occasion." },
         { "type": "text", "id": "button_label", "label": "Button", "default": "Shop now" }, { "type": "url", "id": "link", "label": "Link" }

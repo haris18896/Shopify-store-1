@@ -55,6 +55,7 @@ h1, h2, h3, p { margin-block-start: 0; }
 .site-nav ul { display: flex; justify-content: center; gap: clamp(1.6rem,2.7vw,2.75rem); width: min(calc(100% - 32px), 1240px); margin-block: 0; padding-block: .62rem; list-style: none; }
 .site-nav a { font-size: 11px; line-height: 1; }
 .site-nav a:hover, .site-nav a[aria-current="page"], .site-nav a.is-highlighted { color: #df3f43; }
+.site-nav a[aria-current="page"] { padding-bottom: .55rem; border-bottom: 1px solid currentColor; }
 .mobile-menu { display: none; }
 
 /* Homepage */

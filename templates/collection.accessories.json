@@ -3,30 +3,246 @@
     "main": {
       "type": "main-department",
       "blocks": {
-        "hero": { "type": "slide", "settings": { "asset": "women-gold-accessories.jpg", "eyebrow": "The finishing touch", "heading": "Accessories New Arrivals", "text": "<p>Considered styles for every day and every story.</p>", "button_label": "Shop new arrivals", "button_link": "/collections/all", "secondary_label": "Explore collection", "secondary_link": "/collections/all", "badge": "New\nSeason" } },
-        "circle_women": { "type": "circle", "settings": { "asset": "new-in-category-women.png", "title": "Women", "link": "/collections/women" } },
-        "circle_men": { "type": "circle", "settings": { "asset": "new-in-category-men.png", "title": "Men", "link": "/collections/men" } },
-        "circle_girls": { "type": "circle", "settings": { "asset": "new-in-category-girls.png", "title": "Girls", "link": "/collections/girls" } },
-        "circle_boys": { "type": "circle", "settings": { "asset": "new-in-category-boys.png", "title": "Boys", "link": "/collections/boys" } },
-        "circle_baby": { "type": "circle", "settings": { "asset": "new-in-category-baby.png", "title": "Baby", "link": "/collections/baby" } },
-        "circle_toys": { "type": "circle", "settings": { "asset": "new-in-category-toys.png", "title": "Toys", "link": "/collections/toys" } },
-        "circle_watches": { "type": "circle", "settings": { "asset": "new-in-category-watches.png", "title": "Watches", "link": "/collections/watches" } },
-        "circle_accessories": { "type": "circle", "settings": { "asset": "new-in-category-accessories.png", "title": "Accessories", "link": "/collections/accessories" } },
-        "trend_one": { "type": "trend", "settings": { "asset": "new-in-feature-eastern-wear.png", "heading": "Modern Classics", "text": "Timeless style, thoughtfully updated.", "button_label": "Shop now", "link": "/collections/all" } },
-        "trend_two": { "type": "trend", "settings": { "asset": "new-in-feature-western-wear.png", "heading": "Everyday Essentials", "text": "Easy pieces for every plan.", "button_label": "Explore", "link": "/collections/all" } },
-        "trend_three": { "type": "trend", "settings": { "asset": "new-in-feature-kids.png", "heading": "Fresh Favourites", "text": "New colours, new stories.", "button_label": "Discover", "link": "/collections/all" } },
-        "trend_four": { "type": "trend", "settings": { "asset": "new-in-feature-watches.png", "heading": "Finishing Touches", "text": "Details that make the look.", "button_label": "Shop the edit", "link": "/collections/all" } },
-        "cat_one": { "type": "shop_category", "settings": { "asset": "new-in-category-women.png", "title": "New Arrivals", "button_label": "Shop now", "link": "/collections/all" } },
-        "cat_two": { "type": "shop_category", "settings": { "asset": "new-in-category-men.png", "title": "Everyday", "button_label": "Shop now", "link": "/collections/all" } },
-        "cat_three": { "type": "shop_category", "settings": { "asset": "new-in-category-watches.png", "title": "Premium Edit", "button_label": "Shop now", "link": "/collections/all" } },
-        "cat_four": { "type": "shop_category", "settings": { "asset": "new-in-category-accessories.png", "title": "Accessories", "button_label": "Shop now", "link": "/collections/all" } },
-        "promo_one": { "type": "promo", "settings": { "asset": "new-in-feature-western-wear.png", "heading": "The Everyday Edit", "text": "Effortless style for every plan.", "button_label": "Shop now", "link": "/collections/all" } },
-        "promo_two": { "type": "promo", "settings": { "asset": "new-in-feature-watches.png", "heading": "Make It Yours", "text": "Details designed to stand out.", "button_label": "Explore", "link": "/collections/all" } },
-        "promo_three": { "type": "promo", "settings": { "asset": "new-in-category-accessories.png", "heading": "Complete the Look", "text": "The finishing touch to every story.", "button_label": "Shop accessories", "link": "/collections/accessories" } }
+        "hero": {
+          "type": "slide",
+          "settings": {
+            "asset": "women-gold-accessories.jpg",
+            "eyebrow": "Accessories collection",
+            "heading": "Finish Every Look",
+            "text": "<p>Bags, jewellery, shoes and details that make the story yours.</p>",
+            "button_label": "Shop new arrivals",
+            "button_link": "/search?q=accessories%20new%20arrivals&type=product",
+            "secondary_label": "Explore collection",
+            "secondary_link": "/search?q=accessories&type=product",
+            "badge": "New\nDetails"
+          }
+        },
+        "circle_1_new-arrivals": {
+          "type": "circle",
+          "settings": {
+            "asset": "new-in-category-accessories.png",
+            "title": "New Arrivals",
+            "link": "/search?q=accessories%20New%20Arrivals&type=product"
+          }
+        },
+        "circle_2_bags": {
+          "type": "circle",
+          "settings": {
+            "asset": "women-classic-black-handbag.jpg",
+            "title": "Bags",
+            "link": "/search?q=accessories%20Bags&type=product"
+          }
+        },
+        "circle_3_jewellery": {
+          "type": "circle",
+          "settings": {
+            "asset": "women-gold-accessories.jpg",
+            "title": "Jewellery",
+            "link": "/search?q=accessories%20Jewellery&type=product"
+          }
+        },
+        "circle_4_shoes": {
+          "type": "circle",
+          "settings": {
+            "asset": "women-nude-heels.jpg",
+            "title": "Shoes",
+            "link": "/search?q=accessories%20Shoes&type=product"
+          }
+        },
+        "circle_5_watches": {
+          "type": "circle",
+          "settings": {
+            "asset": "new-in-category-watches.png",
+            "title": "Watches",
+            "link": "/search?q=accessories%20Watches&type=product"
+          }
+        },
+        "circle_6_sunglasses": {
+          "type": "circle",
+          "settings": {
+            "asset": "new-in-category-accessories.png",
+            "title": "Sunglasses",
+            "link": "/search?q=accessories%20Sunglasses&type=product"
+          }
+        },
+        "circle_7_scarves": {
+          "type": "circle",
+          "settings": {
+            "asset": "women-pastel-unstitched.jpg",
+            "title": "Scarves",
+            "link": "/search?q=accessories%20Scarves&type=product"
+          }
+        },
+        "circle_8_gifts": {
+          "type": "circle",
+          "settings": {
+            "asset": "women-beige-handbag-editorial.jpg",
+            "title": "Gifts",
+            "link": "/search?q=accessories%20Gifts&type=product"
+          }
+        },
+        "trend_1_the-bag-edit": {
+          "type": "trend",
+          "settings": {
+            "asset": "women-beige-handbag-editorial.jpg",
+            "heading": "The Bag Edit",
+            "text": "Carry everyday beautifully.",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20The%20Bag%20Edit&type=product"
+          }
+        },
+        "trend_2_golden-details": {
+          "type": "trend",
+          "settings": {
+            "asset": "women-gold-accessories.jpg",
+            "heading": "Golden Details",
+            "text": "Finishing touches that shine.",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Golden%20Details&type=product"
+          }
+        },
+        "trend_3_step-into-style": {
+          "type": "trend",
+          "settings": {
+            "asset": "women-nude-heels.jpg",
+            "heading": "Step into Style",
+            "text": "Shoes for every occasion.",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Step%20into%20Style&type=product"
+          }
+        },
+        "trend_4_timeless-watches": {
+          "type": "trend",
+          "settings": {
+            "asset": "new-in-feature-watches.png",
+            "heading": "Timeless Watches",
+            "text": "Details that last.",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Timeless%20Watches&type=product"
+          }
+        },
+        "cat_1_handbags": {
+          "type": "shop_category",
+          "settings": {
+            "asset": "women-classic-black-handbag.jpg",
+            "title": "Handbags",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Handbags&type=product"
+          }
+        },
+        "cat_2_jewellery": {
+          "type": "shop_category",
+          "settings": {
+            "asset": "women-gold-accessories.jpg",
+            "title": "Jewellery",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Jewellery&type=product"
+          }
+        },
+        "cat_3_shoes": {
+          "type": "shop_category",
+          "settings": {
+            "asset": "women-nude-heels.jpg",
+            "title": "Shoes",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Shoes&type=product"
+          }
+        },
+        "cat_4_watches": {
+          "type": "shop_category",
+          "settings": {
+            "asset": "new-in-category-watches.png",
+            "title": "Watches",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Watches&type=product"
+          }
+        },
+        "cat_5_sunglasses": {
+          "type": "shop_category",
+          "settings": {
+            "asset": "new-in-category-accessories.png",
+            "title": "Sunglasses",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Sunglasses&type=product"
+          }
+        },
+        "cat_6_gift-ideas": {
+          "type": "shop_category",
+          "settings": {
+            "asset": "women-beige-handbag-editorial.jpg",
+            "title": "Gift Ideas",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Gift%20Ideas&type=product"
+          }
+        },
+        "promo_1_the-everyday-bag": {
+          "type": "promo",
+          "settings": {
+            "asset": "women-beige-handbag-editorial.jpg",
+            "heading": "The Everyday Bag",
+            "text": "Functional, polished and made to go.",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20The%20Everyday%20Bag&type=product"
+          }
+        },
+        "promo_2_step-into-style": {
+          "type": "promo",
+          "settings": {
+            "asset": "women-nude-heels.jpg",
+            "heading": "Step into Style",
+            "text": "The perfect pair for every plan.",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Step%20into%20Style&type=product"
+          }
+        },
+        "promo_3_accessorize-your-story": {
+          "type": "promo",
+          "settings": {
+            "asset": "women-gold-accessories.jpg",
+            "heading": "Accessorize Your Story",
+            "text": "Small details, unmistakably you.",
+            "button_label": "Shop now",
+            "link": "/search?q=accessories%20Accessorize%20Your%20Story&type=product"
+          }
+        }
       },
-      "block_order": ["hero", "circle_women", "circle_men", "circle_girls", "circle_boys", "circle_baby", "circle_toys", "circle_watches", "circle_accessories", "trend_one", "trend_two", "trend_three", "trend_four", "cat_one", "cat_two", "cat_three", "cat_four", "promo_one", "promo_two", "promo_three"],
-      "settings": { "hero_autoplay": false, "hero_speed": 5, "trending_heading": "Trending Accessories", "categories_heading": "Shop by Category", "products_heading": "Best Selling Accessories", "products_to_show": 6, "returns_text": "Hassle-free returns within 7 days", "delivery_text": "Across Pakistan" }
+      "block_order": [
+        "hero",
+        "circle_1_new-arrivals",
+        "circle_2_bags",
+        "circle_3_jewellery",
+        "circle_4_shoes",
+        "circle_5_watches",
+        "circle_6_sunglasses",
+        "circle_7_scarves",
+        "circle_8_gifts",
+        "trend_1_the-bag-edit",
+        "trend_2_golden-details",
+        "trend_3_step-into-style",
+        "trend_4_timeless-watches",
+        "cat_1_handbags",
+        "cat_2_jewellery",
+        "cat_3_shoes",
+        "cat_4_watches",
+        "cat_5_sunglasses",
+        "cat_6_gift-ideas",
+        "promo_1_the-everyday-bag",
+        "promo_2_step-into-style",
+        "promo_3_accessorize-your-story"
+      ],
+      "settings": {
+        "hero_autoplay": false,
+        "hero_speed": 5,
+        "trending_heading": "Trending Accessories",
+        "categories_heading": "Shop by Category",
+        "products_heading": "Best Selling Accessories",
+        "products_to_show": 6,
+        "returns_text": "Hassle-free returns within 7 days",
+        "delivery_text": "Across Pakistan"
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
