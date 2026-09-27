@@ -16,15 +16,15 @@
       "type": "header",
       "blocks": {
         "new_in": { "type": "navigation_item", "settings": { "label": "New In", "link": "/" } },
-        "women": { "type": "navigation_item", "settings": { "label": "Women", "link": "/collections/women?view=women" } },
-        "men": { "type": "navigation_item", "settings": { "label": "Men", "link": "/collections/men?view=men" } },
-        "girls": { "type": "navigation_item", "settings": { "label": "Girls", "link": "/collections/girls?view=girls" } },
-        "boys": { "type": "navigation_item", "settings": { "label": "Boys", "link": "/collections/boys?view=boys" } },
-        "baby": { "type": "navigation_item", "settings": { "label": "Baby", "link": "/collections/baby?view=baby" } },
-        "toys": { "type": "navigation_item", "settings": { "label": "Toys", "link": "/collections/toys?view=toys" } },
-        "watches": { "type": "navigation_item", "settings": { "label": "Watches", "link": "/collections/watches?view=watches" } },
-        "accessories": { "type": "navigation_item", "settings": { "label": "Accessories", "link": "/collections/accessories?view=accessories" } },
-        "sale": { "type": "navigation_item", "settings": { "label": "Sale", "link": "/collections/sale", "highlight": true } }
+        "women": { "type": "navigation_item", "settings": { "label": "Women", "link": "/collections/all?view=women" } },
+        "men": { "type": "navigation_item", "settings": { "label": "Men", "link": "/collections/all?view=men" } },
+        "girls": { "type": "navigation_item", "settings": { "label": "Girls", "link": "/collections/all?view=girls" } },
+        "boys": { "type": "navigation_item", "settings": { "label": "Boys", "link": "/collections/all?view=boys" } },
+        "baby": { "type": "navigation_item", "settings": { "label": "Baby", "link": "/collections/all?view=baby" } },
+        "toys": { "type": "navigation_item", "settings": { "label": "Toys", "link": "/collections/all?view=toys" } },
+        "watches": { "type": "navigation_item", "settings": { "label": "Watches", "link": "/collections/all?view=watches" } },
+        "accessories": { "type": "navigation_item", "settings": { "label": "Accessories", "link": "/collections/all?view=accessories" } },
+        "sale": { "type": "navigation_item", "settings": { "label": "Sale", "link": "/collections/all", "highlight": true } }
       },
       "block_order": ["new_in", "women", "men", "girls", "boys", "baby", "toys", "watches", "accessories", "sale"],
       "settings": { "brand_name": "Jhoom", "tagline": "Style for every story" }

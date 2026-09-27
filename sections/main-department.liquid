@@ -5,7 +5,7 @@
   assign category_blocks = section.blocks | where: 'type', 'shop_category'
   assign promo_blocks = section.blocks | where: 'type', 'promo'
   assign product_source = section.settings.product_collection | default: collection
-  assign department_handle = collection.handle | default: 'women'
+  assign department_handle = template.suffix | default: collection.handle | default: 'women'
 
   case department_handle
     when 'men'

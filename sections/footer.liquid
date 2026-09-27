@@ -28,7 +28,7 @@
 
     <nav class="footer-shop" aria-label="Shop"><h3>Shop</h3>
       {% if section.settings.menu_1 != blank %}<ul>{% for link in section.settings.menu_1.links %}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{% endfor %}</ul>
-      {% else %}<ul><li><a href="{{ routes.collections_url }}/women?view=women">Women</a></li><li><a href="{{ routes.collections_url }}/men?view=men">Men</a></li><li><a href="{{ routes.collections_url }}/girls?view=girls">Girls</a></li><li><a href="{{ routes.collections_url }}/boys?view=boys">Boys</a></li><li><a href="{{ routes.collections_url }}/baby?view=baby">Baby</a></li><li><a href="{{ routes.collections_url }}/toys?view=toys">Toys</a></li><li><a href="{{ routes.collections_url }}/watches?view=watches">Watches</a></li><li><a href="{{ routes.collections_url }}/accessories?view=accessories">Accessories</a></li><li><a href="{{ routes.collections_url }}/sale">Sale</a></li></ul>{% endif %}
+      {% else %}<ul><li><a href="{{ routes.all_products_collection_url }}?view=women">Women</a></li><li><a href="{{ routes.all_products_collection_url }}?view=men">Men</a></li><li><a href="{{ routes.all_products_collection_url }}?view=girls">Girls</a></li><li><a href="{{ routes.all_products_collection_url }}?view=boys">Boys</a></li><li><a href="{{ routes.all_products_collection_url }}?view=baby">Baby</a></li><li><a href="{{ routes.all_products_collection_url }}?view=toys">Toys</a></li><li><a href="{{ routes.all_products_collection_url }}?view=watches">Watches</a></li><li><a href="{{ routes.all_products_collection_url }}?view=accessories">Accessories</a></li><li><a href="{{ routes.all_products_collection_url }}">Sale</a></li></ul>{% endif %}
     </nav>
 
     <nav aria-label="Help"><h3>Help</h3>

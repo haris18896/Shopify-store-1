@@ -9,13 +9,17 @@
             {% for block in section.blocks %}
               {% liquid
                 assign nav_url = block.settings.link | default: routes.all_products_collection_url
-                assign nav_handle = block.settings.label | handle
+                assign nav_path = nav_url | split: '?' | first
+                assign nav_view = ''
+                if nav_url contains 'view='
+                  assign nav_view = nav_url | split: 'view=' | last | split: '&' | first
+                endif
                 assign nav_current = false
                 if request.page_type == 'index' and block.settings.label == 'New In'
                   assign nav_current = true
-                elsif request.page_type == 'collection' and collection.handle == nav_handle
+                elsif nav_view != blank and template.suffix == nav_view
                   assign nav_current = true
-                elsif request.path == nav_url
+                elsif nav_view == blank and request.path == nav_path and template.suffix == blank
                   assign nav_current = true
                 endif
               %}
@@ -60,13 +64,17 @@
         {% for block in section.blocks %}
           {% liquid
             assign nav_url = block.settings.link | default: routes.all_products_collection_url
-            assign nav_handle = block.settings.label | handle
+            assign nav_path = nav_url | split: '?' | first
+            assign nav_view = ''
+            if nav_url contains 'view='
+              assign nav_view = nav_url | split: 'view=' | last | split: '&' | first
+            endif
             assign nav_current = false
             if request.page_type == 'index' and block.settings.label == 'New In'
               assign nav_current = true
-            elsif request.page_type == 'collection' and collection.handle == nav_handle
+            elsif nav_view != blank and template.suffix == nav_view
               assign nav_current = true
-            elsif request.path == nav_url
+            elsif nav_view == blank and request.path == nav_path and template.suffix == blank
               assign nav_current = true
             endif
           %}
