@@ -2,7 +2,16 @@
   "sections": {
     "main": {
       "type": "main-search",
-      "settings": {}
+      "blocks": {
+        "women_set": { "type": "suggestion", "settings": { "label": "Women kurta set", "query": "women kurta set" } },
+        "women_kurti": { "type": "suggestion", "settings": { "label": "Women kurti", "query": "women kurti" } },
+        "cotton": { "type": "suggestion", "settings": { "label": "Cotton kurta", "query": "cotton kurta" } },
+        "embroidered": { "type": "suggestion", "settings": { "label": "Embroidered kurta", "query": "embroidered kurta" } },
+        "summer": { "type": "suggestion", "settings": { "label": "Summer kurta", "query": "summer kurta" } },
+        "festive": { "type": "suggestion", "settings": { "label": "Festive kurta", "query": "festive kurta" } }
+      },
+      "block_order": ["women_set", "women_kurti", "cotton", "embroidered", "summer", "festive"],
+      "settings": { "results_per_page": 12, "returns_text": "Hassle-free returns within 7 days", "delivery_text": "Across Pakistan" }
     }
   },
   "order": ["main"]

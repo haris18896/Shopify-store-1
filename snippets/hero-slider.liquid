@@ -1,0 +1,53 @@
+{% comment %}
+  Shared landing-page hero.
+  Required: slide_blocks, section_id. Optional: autoplay, speed, fallback_mode.
+{% endcomment %}
+<section class="hero page-width" aria-roledescription="carousel" aria-label="Featured promotions" data-slider data-autoplay="{{ autoplay }}" data-interval="{{ speed | default: 5 | times: 1000 }}">
+  <div class="hero__track">
+    {% for block in slide_blocks %}
+      {% liquid
+        assign fallback_asset = block.settings.asset
+        if fallback_asset == blank and fallback_mode == 'home'
+          case forloop.index
+            when 2
+              assign fallback_asset = 'home-hero-women.jpg'
+            when 3
+              assign fallback_asset = 'home-hero-men.jpg'
+            else
+              assign fallback_asset = 'home-hero.jpg'
+          endcase
+        endif
+        if fallback_asset == blank
+          assign fallback_asset = 'women-blush-lawn-suit.jpg'
+        endif
+      %}
+      <article class="hero__slide{% if forloop.first %} is-active{% endif %}" data-slide {{ block.shopify_attributes }}>
+        <picture>
+          {% if block.settings.mobile_image != blank %}<source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 1000 }}">{% endif %}
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 2400 | image_tag: widths: '750, 1200, 1800, 2400', sizes: '(max-width: 749px) 100vw, 1440px', loading: 'eager', fetchpriority: 'high', alt: block.settings.image.alt }}
+          {% else %}
+            <img src="{{ fallback_asset | asset_url }}" width="1916" height="821" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"{% if forloop.first %} fetchpriority="high"{% endif %} alt="{{ block.settings.heading | escape }}">
+          {% endif %}
+        </picture>
+        <div class="hero__copy">
+          {% if block.settings.eyebrow != blank %}<p class="eyebrow">{{ block.settings.eyebrow | escape }}</p>{% endif %}
+          <h1>{{ block.settings.heading | escape }}</h1>
+          {% if block.settings.text != blank %}<div class="hero__text">{{ block.settings.text }}</div>{% endif %}
+          <div class="hero__actions">
+            {% if block.settings.button_label != blank %}<a class="button" href="{{ block.settings.button_link | default: routes.all_products_collection_url }}">{{ block.settings.button_label | escape }} <span aria-hidden="true">→</span></a>{% endif %}
+            {% if block.settings.secondary_label != blank %}<a class="button button--secondary" href="{{ block.settings.secondary_link | default: routes.collections_url }}">{{ block.settings.secondary_label | escape }} <span aria-hidden="true">→</span></a>{% endif %}
+          </div>
+        </div>
+        {% if block.settings.badge != blank %}<div class="hero__badge">{{ block.settings.badge | newline_to_br }}</div>{% endif %}
+      </article>
+    {% else %}
+      <article class="hero__slide is-active" data-slide><img src="{{ 'home-hero.jpg' | asset_url }}" width="1916" height="821" loading="eager" fetchpriority="high" alt="Elegant fashion campaign"><div class="hero__copy"><p class="eyebrow">New season</p><h1>New Season,<br>Premium Style</h1><p>Modern fashion for every generation. Timeless looks, everyday moments.</p><a class="button" href="{{ routes.all_products_collection_url }}">Shop now <span aria-hidden="true">→</span></a></div></article>
+    {% endfor %}
+  </div>
+  {% if slide_blocks.size > 1 %}
+    <button class="slider-arrow slider-arrow--prev" type="button" data-prev aria-label="Previous slide">‹</button>
+    <button class="slider-arrow slider-arrow--next" type="button" data-next aria-label="Next slide">›</button>
+    <div class="slider-controls"><div class="slider-dots" aria-label="Choose slide">{% for block in slide_blocks %}<button type="button" data-dot="{{ forloop.index0 }}"{% if forloop.first %} class="is-active" aria-current="true"{% endif %} aria-label="Show slide {{ forloop.index }}"></button>{% endfor %}</div>{% if autoplay %}<button class="slider-toggle" type="button" data-autoplay-toggle aria-label="Pause slideshow">Ⅱ</button>{% endif %}</div>
+  {% endif %}
+</section>

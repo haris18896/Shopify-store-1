@@ -2,7 +2,7 @@
 
 ## 1. Project status
 
-**Current phase:** homepage implementation complete; collection landing is next.
+**Current phase:** core storefront page-building complete; store data, merchant configuration, and checkout/account app setup are next.
 
 This repository contains an original Shopify Online Store 2.0 scaffold and a production-ready responsive homepage based on the supplied desktop/mobile references. The files in `DesignImages/` remain visual references only and are not shipped as theme assets.
 
@@ -12,6 +12,8 @@ This repository contains an original Shopify Online Store 2.0 scaffold and a pro
 - Responsive announcement bar, commerce header, mobile drawer, footer, newsletter, and mobile dock
 - Configurable homepage hero, category rail, featured collection cards, dynamic bestseller cards, campaign banner, brand rail, and trust strip
 - Original redistributable homepage demo imagery with entries in `ASSET_LICENSES.md`
+- Reusable department landing system with a complete Women's template and generic department configuration
+- Native filtered collection and search results, product detail, cart, and a legacy-account compatibility dashboard
 - Screen-to-template and component inventory
 - Responsive, accessibility, performance, SEO, testing, and release plan
 - Asset licensing policy and register in `ASSET_LICENSES.md`
@@ -19,7 +21,7 @@ This repository contains an original Shopify Online Store 2.0 scaffold and a pro
 ### Deliberately not included yet
 
 - Product/demo data
-- Product, brand, or payment imagery beyond the original homepage demo assets
+- Cleared product, brand, or payment imagery beyond the supplied project assets
 - Third-party libraries, fonts, or icon packs
 - Store connection, deployment, or marketplace submission
 - Checkout and new customer-account UI code, because Shopify controls those surfaces separately from storefront themes

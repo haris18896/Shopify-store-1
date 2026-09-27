@@ -5,84 +5,8 @@
   assign brand_blocks = section.blocks | where: 'type', 'brand'
 %}
 <div class="home" data-home-section="{{ section.id }}">
-  <section class="hero page-width" aria-roledescription="carousel" aria-label="Featured promotions" data-slider data-autoplay="{{ section.settings.hero_autoplay }}" data-interval="{{ section.settings.hero_speed | times: 1000 }}">
-    <div class="hero__track">
-      {% for block in slide_blocks %}
-        <article class="hero__slide{% if forloop.first %} is-active{% endif %}" data-slide {{ block.shopify_attributes }}>
-          <picture>
-            {% if block.settings.mobile_image != blank %}<source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 1000 }}">{% endif %}
-            {% if block.settings.image != blank %}
-              {{ block.settings.image | image_url: width: 2400 | image_tag: widths: '750, 1200, 1800, 2400', sizes: '(max-width: 749px) 100vw, 1440px', loading: 'eager', fetchpriority: 'high', alt: block.settings.image.alt }}
-            {% else %}
-              {% liquid
-                case forloop.index
-                  when 2
-                    assign hero_asset = 'home-hero-women.jpg'
-                    assign hero_alt = 'Woman wearing an embroidered rose outfit'
-                  when 3
-                    assign hero_asset = 'home-hero-men.jpg'
-                    assign hero_alt = 'Man wearing an embroidered sage kurta'
-                  else
-                    assign hero_asset = 'home-hero.jpg'
-                    assign hero_alt = 'Elegant fashion campaign'
-                endcase
-              %}
-              <img src="{{ hero_asset | asset_url }}" width="1916" height="821" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"{% if forloop.first %} fetchpriority="high"{% endif %} alt="{{ hero_alt }}">
-            {% endif %}
-          </picture>
-          <div class="hero__copy">
-            {% if block.settings.eyebrow != blank %}<p class="eyebrow">{{ block.settings.eyebrow | escape }}</p>{% endif %}
-            <h1>{{ block.settings.heading | escape }}</h1>
-            {% if block.settings.text != blank %}<div class="hero__text">{{ block.settings.text }}</div>{% endif %}
-            {% if block.settings.button_label != blank %}<a class="button" href="{{ block.settings.button_link | default: routes.all_products_collection_url }}">{{ block.settings.button_label | escape }} <span aria-hidden="true">→</span></a>{% endif %}
-          </div>
-          {% if block.settings.badge != blank %}<div class="hero__badge">{{ block.settings.badge | newline_to_br }}</div>{% endif %}
-        </article>
-      {% else %}
-        <article class="hero__slide is-active" data-slide><img src="{{ 'home-hero.jpg' | asset_url }}" width="1916" height="821" loading="eager" fetchpriority="high" alt="Elegant fashion campaign"><div class="hero__copy"><p class="eyebrow">New season</p><h1>New Season,<br>Premium Style</h1><p>Modern fashion for every generation. Timeless looks, everyday moments.</p><a class="button" href="{{ routes.all_products_collection_url }}">Shop now <span aria-hidden="true">→</span></a></div></article>
-      {% endfor %}
-    </div>
-    {% if slide_blocks.size > 1 %}<button class="slider-arrow slider-arrow--prev" type="button" data-prev aria-label="Previous slide">‹</button><button class="slider-arrow slider-arrow--next" type="button" data-next aria-label="Next slide">›</button><div class="slider-controls"><div class="slider-dots" aria-label="Choose slide">{% for block in slide_blocks %}<button type="button" data-dot="{{ forloop.index0 }}"{% if forloop.first %} class="is-active" aria-current="true"{% endif %} aria-label="Show slide {{ forloop.index }}"></button>{% endfor %}</div>{% if section.settings.hero_autoplay %}<button class="slider-toggle" type="button" data-autoplay-toggle aria-label="Pause slideshow">Ⅱ</button>{% endif %}</div>{% endif %}
-  </section>
-
-  {% if category_blocks.size > 0 %}
-    <nav class="category-rail page-width" aria-label="Shop by category">
-      {% for block in category_blocks %}
-        {% assign chosen_collection = block.settings.collection %}
-        {% liquid
-          assign category_image = block.settings.image | default: chosen_collection.image
-          case forloop.index
-            when 1
-              assign category_asset = 'new-in-category-women.png'
-            when 2
-              assign category_asset = 'new-in-category-men.png'
-            when 3
-              assign category_asset = 'new-in-category-girls.png'
-            when 4
-              assign category_asset = 'new-in-category-boys.png'
-            when 5
-              assign category_asset = 'new-in-category-baby.png'
-            when 6
-              assign category_asset = 'new-in-category-toys.png'
-            when 7
-              assign category_asset = 'new-in-category-watches.png'
-            else
-              assign category_asset = 'new-in-category-accessories.png'
-          endcase
-        %}
-        <a href="{{ block.settings.link | default: chosen_collection.url | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
-          <span>
-            {% if category_image != blank %}
-              {{ category_image | image_url: width: 300 | image_tag: widths: '120, 180, 300', sizes: '110px', loading: 'lazy', alt: block.settings.title }}
-            {% else %}
-              <img src="{{ category_asset | asset_url }}" width="1254" height="1254" loading="lazy" alt="{{ block.settings.title | escape }}">
-            {% endif %}
-          </span>
-          <strong class="category-rail__label">{{ block.settings.title | default: chosen_collection.title | escape }} <i aria-hidden="true">→</i></strong>
-        </a>
-      {% endfor %}
-    </nav>
-  {% endif %}
+  {% render 'hero-slider', slide_blocks: slide_blocks, section_id: section.id, autoplay: section.settings.hero_autoplay, speed: section.settings.hero_speed, fallback_mode: 'home' %}
+  {% render 'category-rail', category_blocks: category_blocks %}
 
   <section class="home-section page-width" aria-labelledby="Featured-{{ section.id }}">
     <div class="section-heading"><h2 id="Featured-{{ section.id }}">{{ section.settings.featured_heading | escape }}</h2><a href="{{ section.settings.featured_link | default: routes.collections_url }}">View all <span aria-hidden="true">→</span></a></div>
@@ -193,12 +117,7 @@
     </div>
   </section>
 
-  <section class="trust-strip page-width" aria-label="Store benefits">
-    <div><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 2 8 3v6c0 5-3 9-8 11-5-2-8-6-8-11V5l8-3Zm-4 10 3 3 5-6"/></svg><span><strong>Authentic products</strong><small>Quality you can trust</small></span></div>
-    <div><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 7 9-5 9 5-9 5-9-5Zm0 0v10l9 5 9-5V7M12 12v10"/></svg><span><strong>Easy returns</strong><small>{{ section.settings.returns_text | escape }}</small></span></div>
-    <div><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 15v2"/></svg><span><strong>Secure checkout</strong><small>Your data is protected</small></span></div>
-    <div><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 6h11v11H3zM14 10h4l3 3v4h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg><span><strong>Fast delivery</strong><small>{{ section.settings.delivery_text | escape }}</small></span></div>
-  </section>
+  {% render 'store-benefits', returns_text: section.settings.returns_text, delivery_text: section.settings.delivery_text %}
 </div>
 <nav class="mobile-dock" aria-label="Quick navigation"><a href="{{ routes.root_url }}" aria-current="page"><span aria-hidden="true">⌂</span>New In</a><a href="{{ routes.collections_url }}"><span aria-hidden="true">▦</span>Categories</a><a href="{{ routes.search_url }}"><span aria-hidden="true">⌕</span>Search</a>{% if section.settings.mobile_wishlist_link != blank %}<a href="{{ section.settings.mobile_wishlist_link }}"><span aria-hidden="true">♡</span>Wishlist</a>{% endif %}<a href="{{ routes.cart_url }}"><span aria-hidden="true">🛒</span>Cart{% if cart.item_count > 0 %}<b>{{ cart.item_count }}</b>{% endif %}</a></nav>
 

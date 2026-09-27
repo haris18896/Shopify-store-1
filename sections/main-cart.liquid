@@ -1,11 +1,47 @@
-<section class="page-width" aria-labelledby="cart-title">
-  <h1 id="cart-title">Cart</h1>
-  <p>Cart items and checkout controls will be implemented in the page-building phase.</p>
+{% liquid
+  assign free_shipping_threshold = section.settings.free_shipping_threshold | times: 100
+  assign amount_to_threshold = free_shipping_threshold | minus: cart.total_price
+  assign progress = 100
+  if free_shipping_threshold > 0
+    assign progress = cart.total_price | times: 100.0 | divided_by: free_shipping_threshold | at_most: 100
+  endif
+%}
+<section class="cart-page page-width" aria-labelledby="cart-title">
+  <div class="cart-page__heading"><div><h1 id="cart-title">Shopping Cart{% if cart.item_count > 0 %} <small>({{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %})</small>{% endif %}</h1><p>Handpicked styles for a brighter tomorrow.</p></div><a href="{{ routes.all_products_collection_url }}">← Continue shopping</a></div>
+
+  {% if cart.item_count == 0 %}
+    <div class="empty-state"><h2>Your cart is empty</h2><p>Discover something made for your story.</p><a class="button" href="{{ routes.all_products_collection_url }}">Start shopping</a></div>
+  {% else %}
+    {% form 'cart', cart, id: 'CartForm', class: 'cart-layout' %}
+      <div class="cart-items">
+        {% for item in cart.items %}
+          <article class="cart-item">
+            <a class="cart-item__image" href="{{ item.url }}">{% if item.image %}{{ item.image | image_url: width: 360 | image_tag: widths: '160, 240, 360', sizes: '150px', loading: 'lazy', alt: item.product.title }}{% endif %}</a>
+            <div class="cart-item__info"><h2><a href="{{ item.url }}">{{ item.product.title | escape }}</a></h2><strong>{{ item.final_price | money }}</strong>{% unless item.product.has_only_default_variant %}<p>{{ item.variant.title | escape }}</p>{% endunless %}{% if item.selling_plan_allocation %}<p>{{ item.selling_plan_allocation.selling_plan.name }}</p>{% endif %}<a href="{{ item.url_to_remove }}">Remove</a></div>
+            <div class="quantity"><button type="button" data-quantity-minus aria-label="Decrease {{ item.product.title | escape }} quantity">−</button><input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity for {{ item.product.title | escape }}"><button type="button" data-quantity-plus aria-label="Increase {{ item.product.title | escape }} quantity">+</button></div>
+            <strong class="cart-item__total">{{ item.final_line_price | money }}</strong>
+          </article>
+        {% endfor %}
+        <div class="cart-note"><label for="CartNote">Add a gift note <small>(Optional)</small></label><textarea id="CartNote" name="note" maxlength="200" placeholder="Write a short note for your loved ones…">{{ cart.note }}</textarea><button class="button button--secondary" type="submit" name="update">Update cart</button></div>
+      </div>
+
+      <aside class="cart-summary">
+        {% if free_shipping_threshold > 0 %}<div class="shipping-progress">{% if amount_to_threshold > 0 %}<h2>You’re {{ amount_to_threshold | money }} away from free shipping!</h2>{% else %}<h2>You’ve unlocked free shipping!</h2>{% endif %}<div><span style="width: {{ progress }}%"></span></div><p><strong>{{ cart.total_price | money }}</strong><span>{{ free_shipping_threshold | money }}</span></p></div>{% endif %}
+        <div class="order-summary"><h2>Order Summary</h2><p><span>Subtotal ({{ cart.item_count }} items)</span><strong>{{ cart.items_subtotal_price | money }}</strong></p>{% if cart.total_discount > 0 %}<p class="order-summary__discount"><span>Discount</span><strong>− {{ cart.total_discount | money }}</strong></p>{% endif %}<p><span>Shipping</span><span>Calculated at checkout</span></p><p class="order-summary__total"><strong>Total</strong><strong>{{ cart.total_price | money }}</strong></p><button class="button" type="submit" name="checkout">Proceed to Checkout <span aria-hidden="true">→</span></button>{% if additional_checkout_buttons %}<div class="additional-checkout-buttons">{{ content_for_additional_checkout_buttons }}</div>{% endif %}<small>Taxes and shipping calculated at checkout.</small></div>
+      </aside>
+    {% endform %}
+  {% endif %}
 </section>
+
+{% render 'store-benefits', returns_text: section.settings.returns_text, delivery_text: section.settings.delivery_text %}
 
 {% schema %}
 {
-  "name": "Cart foundation",
-  "settings": []
+  "name": "Cart",
+  "settings": [
+    { "type": "range", "id": "free_shipping_threshold", "label": "Free shipping threshold", "min": 0, "max": 9500, "step": 500, "unit": "PKR", "default": 5000 },
+    { "type": "text", "id": "returns_text", "label": "Returns note", "default": "Hassle-free returns within 7 days" },
+    { "type": "text", "id": "delivery_text", "label": "Delivery note", "default": "Across Pakistan" }
+  ]
 }
 {% endschema %}

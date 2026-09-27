@@ -29,6 +29,7 @@
 
     <form class="header-search" action="{{ routes.search_url }}" method="get" role="search">
       <label class="visually-hidden" for="HeaderSearch">Search the store</label>
+      <input type="hidden" name="type" value="product">
       <input id="HeaderSearch" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ section.settings.search_placeholder | escape }}">
       <button type="submit" aria-label="Search"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg></button>
     </form>

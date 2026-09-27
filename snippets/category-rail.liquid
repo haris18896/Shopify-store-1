@@ -1,0 +1,42 @@
+{% comment %}Shared circular category navigation. Required: category_blocks.{% endcomment %}
+{% if category_blocks.size > 0 %}
+  <nav class="category-rail page-width" aria-label="Shop by category">
+    {% for block in category_blocks %}
+      {% liquid
+        assign chosen_collection = block.settings.collection
+        assign category_image = block.settings.image | default: chosen_collection.image
+        assign category_asset = block.settings.asset
+        if category_asset == blank
+          case forloop.index
+            when 1
+              assign category_asset = 'new-in-category-women.png'
+            when 2
+              assign category_asset = 'new-in-category-men.png'
+            when 3
+              assign category_asset = 'new-in-category-girls.png'
+            when 4
+              assign category_asset = 'new-in-category-boys.png'
+            when 5
+              assign category_asset = 'new-in-category-baby.png'
+            when 6
+              assign category_asset = 'new-in-category-toys.png'
+            when 7
+              assign category_asset = 'new-in-category-watches.png'
+            else
+              assign category_asset = 'new-in-category-accessories.png'
+          endcase
+        endif
+      %}
+      <a href="{{ block.settings.link | default: chosen_collection.url | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+        <span>
+          {% if category_image != blank %}
+            {{ category_image | image_url: width: 300 | image_tag: widths: '120, 180, 300', sizes: '110px', loading: 'lazy', alt: block.settings.title }}
+          {% else %}
+            <img src="{{ category_asset | asset_url }}" width="500" height="500" loading="lazy" alt="{{ block.settings.title | escape }}">
+          {% endif %}
+        </span>
+        <strong class="category-rail__label">{{ block.settings.title | default: chosen_collection.title | escape }} <i aria-hidden="true">→</i></strong>
+      </a>
+    {% endfor %}
+  </nav>
+{% endif %}

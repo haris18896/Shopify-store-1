@@ -4,7 +4,7 @@
 shopify theme check --path .
 ```
 
-> Expected result: `35 files inspected with no offenses found.`
+> Expected result: `51 files inspected with no offenses found.`
 
 #### 2. Start the development preview
 
@@ -69,6 +69,18 @@ The homepage uses real Shopify catalog data. Before evaluating the complete layo
 - Collection images
 - A main navigation menu
 - A footer navigation menu
+
+#### 5. Assign collection templates
+
+In **Shopify Admin → Products → Collections**, assign:
+
+- Assign Women, Men, Girls, Boys, Baby, Toys, Watches, and Accessories to their matching collection templates.
+- Use the reusable `department` template as the starting point for any additional editorial department.
+- Product-listing collections (for example Dresses or Kurtas) to the default collection template to get native filters, sorting, and pagination.
+
+Enable storefront filters in the Shopify Search & Discovery app. The collection and search templates read those native filter definitions automatically.
+
+The included account dashboard is a compatibility fallback only for stores that already have **legacy customer accounts**. Legacy accounts are deprecated and unavailable to new stores; modern customer profiles, wishlist, rewards, and notifications must be built with customer-account UI extensions. Checkout and new accounts are hosted surfaces configured in **Settings → Checkout → Customize**.
 
 
 

@@ -38,6 +38,7 @@ Required fields:
 | `assets/new-in-product-*.png` (5 files) | New In empty-catalog product previews | Original AI-generated assets created for this project on 2026-09-26; no third-party marks or source imagery | Commercial use and redistribution inside the paid theme intended; retain generation records |
 | `assets/new-in-promo-*.png` (3 files) | Bundle, multibuy, and newsletter offer banners | Original AI-generated assets created for this project on 2026-09-26; no third-party marks or source imagery | Commercial use and redistribution inside the paid theme intended; retain generation records |
 | `assets/new-in-kids-*.png` (4 files) | Toys, girls, boys, and baby collection banners | Original AI-generated assets created for this project on 2026-09-26; no third-party marks or source imagery | Commercial use and redistribution inside the paid theme intended; retain generation records |
+| `DesignImages/women-source/*.png` plus `assets/women-*.jpg` derivatives (10 each) | Women's department landing and storefront fallbacks | User-supplied project assets added on 2026-09-27; source and redistribution rights must be confirmed by the owner before marketplace release | Private project use only until rights are documented |
 | `assets/favicon.svg` | Default Jhoom browser icon | Original project vector artwork | May ship with theme, subject to Jhoom identity clearance |
 | System font stack | Temporary theme typography | Operating-system supplied; no font files redistributed | May be referenced; no files bundled |
 

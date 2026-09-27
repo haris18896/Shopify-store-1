@@ -1,11 +1,46 @@
-<section class="page-width" aria-labelledby="search-title">
-  <h1 id="search-title">{{ 'general.search.title' | t }}</h1>
-  <p>Search results and filters will be implemented in the page-building phase.</p>
+<section class="search-hero">
+  <div class="page-width">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">›</span><span>Search</span></nav>
+    <div>{% if search.performed %}<h1 id="search-title">Search results for “{{ search.terms | escape }}”</h1><p>{{ search.results_count }} results found</p>{% else %}<h1 id="search-title">Search our store</h1><p>Find your next favourite style.</p>{% endif %}</div>
+    <img src="{{ 'women-blush-lawn-suit.jpg' | asset_url }}" width="1122" height="1402" loading="eager" alt="">
+  </div>
 </section>
+
+<section class="search-page page-width" aria-labelledby="search-title">
+  <form class="search-page__form" action="{{ routes.search_url }}" method="get" role="search"><label class="visually-hidden" for="SearchPageInput">Search products</label><input id="SearchPageInput" name="q" type="search" value="{{ search.terms | escape }}" placeholder="Search for products, brands and more…"><input type="hidden" name="type" value="product"><button class="button" type="submit">Search</button></form>
+  {% if section.blocks.size > 0 %}<nav class="related-searches" aria-label="Related searches"><strong>Related searches</strong><div>{% for block in section.blocks %}<a href="{{ routes.search_url }}?q={{ block.settings.query | url_encode }}&amp;type=product" {{ block.shopify_attributes }}>⌕ {{ block.settings.label | escape }}</a>{% endfor %}</div></nav>{% endif %}
+
+  {% if search.performed %}
+    {% paginate search.results by section.settings.results_per_page %}
+      <div class="listing listing--search">
+        {% render 'facets', results: search %}
+        <div class="listing__results">
+          <div class="listing-toolbar"><p><strong>{{ search.results_count }}</strong> products found</p><label>Sort by:<select data-sort-by>{% assign sort_by = search.sort_by | default: search.default_sort_by %}{% for option in search.sort_options %}<option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>{% endfor %}</select></label></div>
+          {% if search.results_count > 0 %}
+            <div class="listing-grid">{% for item in search.results %}{% if item.object_type == 'product' %}{% render 'product-card', card_product: item %}{% endif %}{% endfor %}</div>
+          {% else %}
+            <div class="empty-state"><h2>No exact match</h2><p>Try a broader search or browse our full collection.</p><a class="button" href="{{ routes.all_products_collection_url }}">View all products</a></div>
+          {% endif %}
+          {% if paginate.pages > 1 %}<nav class="pagination" aria-label="Pagination">{{ paginate | default_pagination }}</nav>{% endif %}
+        </div>
+      </div>
+    {% endpaginate %}
+  {% endif %}
+</section>
+
+{% render 'store-benefits', returns_text: section.settings.returns_text, delivery_text: section.settings.delivery_text %}
 
 {% schema %}
 {
-  "name": "Search foundation",
-  "settings": []
+  "name": "Search results",
+  "settings": [
+    { "type": "range", "id": "results_per_page", "label": "Results per page", "min": 8, "max": 32, "step": 4, "default": 12 },
+    { "type": "text", "id": "returns_text", "label": "Returns note", "default": "Hassle-free returns within 7 days" },
+    { "type": "text", "id": "delivery_text", "label": "Delivery note", "default": "Across Pakistan" }
+  ],
+  "blocks": [{ "type": "suggestion", "name": "Related search", "limit": 8, "settings": [
+    { "type": "text", "id": "label", "label": "Label", "default": "New arrivals" }, { "type": "text", "id": "query", "label": "Search query", "default": "new arrivals" }
+  ] }],
+  "presets": [{ "name": "Search results" }]
 }
 {% endschema %}

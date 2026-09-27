@@ -1,12 +1,46 @@
-<section class="page-width" aria-labelledby="collection-title">
-  <h1 id="collection-title">{{ collection.title | escape }}</h1>
-  {% if collection.description != blank %}{{ collection.description }}{% endif %}
-  <p>Collection grid and filters will be implemented in the page-building phase.</p>
-</section>
+{% paginate collection.products by section.settings.products_per_page %}
+  <section class="listing-hero">
+    <div class="listing-hero__inner page-width">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">›</span><span>{{ collection.title | escape }}</span></nav>
+      <div><h1 id="collection-title">{{ collection.title | escape }}</h1>{% if collection.description != blank %}<div class="listing-hero__description">{{ collection.description }}</div>{% endif %}</div>
+      {% assign hero_image = section.settings.banner_image | default: collection.image %}
+      {% if hero_image != blank %}{{ hero_image | image_url: width: 1600 | image_tag: widths: '600, 1000, 1600', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: collection.title }}{% elsif section.settings.show_fallback_banner %}<img src="{{ 'women-sage-floral-dress.jpg' | asset_url }}" width="1122" height="1402" loading="eager" alt="">{% endif %}
+    </div>
+  </section>
+
+  <section class="listing page-width" aria-labelledby="collection-title">
+    {% render 'facets', results: collection %}
+    <div class="listing__results">
+      <div class="listing-toolbar">
+        <p><strong>{{ collection.products_count }}</strong> products found</p>
+        <label>Sort by:
+          <select data-sort-by>
+            {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+            {% for option in collection.sort_options %}<option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>{% endfor %}
+          </select>
+        </label>
+      </div>
+      {% if collection.products.size > 0 %}
+        <div class="listing-grid">{% for product in collection.products %}{% render 'product-card', card_product: product %}{% endfor %}</div>
+      {% else %}
+        <div class="empty-state"><h2>No products found</h2><p>Try removing a filter or browse all products.</p><a class="button" href="{{ routes.all_products_collection_url }}">Shop all products</a></div>
+      {% endif %}
+      {% if paginate.pages > 1 %}<nav class="pagination" aria-label="Pagination">{{ paginate | default_pagination }}</nav>{% endif %}
+    </div>
+  </section>
+{% endpaginate %}
+
+{% render 'store-benefits', returns_text: section.settings.returns_text, delivery_text: section.settings.delivery_text %}
 
 {% schema %}
 {
-  "name": "Collection foundation",
-  "settings": []
+  "name": "Collection products",
+  "settings": [
+    { "type": "image_picker", "id": "banner_image", "label": "Custom banner image" },
+    { "type": "checkbox", "id": "show_fallback_banner", "label": "Show demo banner if no collection image", "default": true },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 32, "step": 4, "default": 12 },
+    { "type": "text", "id": "returns_text", "label": "Returns note", "default": "Hassle-free returns within 7 days" },
+    { "type": "text", "id": "delivery_text", "label": "Delivery note", "default": "Across Pakistan" }
+  ]
 }
 {% endschema %}

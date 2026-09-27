@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-department",
+      "blocks": {
+        "hero": { "type": "slide", "settings": { "asset": "new-in-kids-baby.png", "eyebrow": "Soft beginnings", "heading": "Baby New Arrivals", "text": "<p>Considered styles for every day and every story.</p>", "button_label": "Shop new arrivals", "button_link": "/collections/all", "secondary_label": "Explore collection", "secondary_link": "/collections/all", "badge": "New\nSeason" } },
+        "circle_women": { "type": "circle", "settings": { "asset": "new-in-category-women.png", "title": "Women", "link": "/collections/women" } },
+        "circle_men": { "type": "circle", "settings": { "asset": "new-in-category-men.png", "title": "Men", "link": "/collections/men" } },
+        "circle_girls": { "type": "circle", "settings": { "asset": "new-in-category-girls.png", "title": "Girls", "link": "/collections/girls" } },
+        "circle_boys": { "type": "circle", "settings": { "asset": "new-in-category-boys.png", "title": "Boys", "link": "/collections/boys" } },
+        "circle_baby": { "type": "circle", "settings": { "asset": "new-in-category-baby.png", "title": "Baby", "link": "/collections/baby" } },
+        "circle_toys": { "type": "circle", "settings": { "asset": "new-in-category-toys.png", "title": "Toys", "link": "/collections/toys" } },
+        "circle_watches": { "type": "circle", "settings": { "asset": "new-in-category-watches.png", "title": "Watches", "link": "/collections/watches" } },
+        "circle_accessories": { "type": "circle", "settings": { "asset": "new-in-category-accessories.png", "title": "Accessories", "link": "/collections/accessories" } },
+        "trend_one": { "type": "trend", "settings": { "asset": "new-in-feature-eastern-wear.png", "heading": "Modern Classics", "text": "Timeless style, thoughtfully updated.", "button_label": "Shop now", "link": "/collections/all" } },
+        "trend_two": { "type": "trend", "settings": { "asset": "new-in-feature-western-wear.png", "heading": "Everyday Essentials", "text": "Easy pieces for every plan.", "button_label": "Explore", "link": "/collections/all" } },
+        "trend_three": { "type": "trend", "settings": { "asset": "new-in-feature-kids.png", "heading": "Fresh Favourites", "text": "New colours, new stories.", "button_label": "Discover", "link": "/collections/all" } },
+        "trend_four": { "type": "trend", "settings": { "asset": "new-in-feature-watches.png", "heading": "Finishing Touches", "text": "Details that make the look.", "button_label": "Shop the edit", "link": "/collections/all" } },
+        "cat_one": { "type": "shop_category", "settings": { "asset": "new-in-category-women.png", "title": "New Arrivals", "button_label": "Shop now", "link": "/collections/all" } },
+        "cat_two": { "type": "shop_category", "settings": { "asset": "new-in-category-men.png", "title": "Everyday", "button_label": "Shop now", "link": "/collections/all" } },
+        "cat_three": { "type": "shop_category", "settings": { "asset": "new-in-category-watches.png", "title": "Premium Edit", "button_label": "Shop now", "link": "/collections/all" } },
+        "cat_four": { "type": "shop_category", "settings": { "asset": "new-in-category-accessories.png", "title": "Accessories", "button_label": "Shop now", "link": "/collections/all" } },
+        "promo_one": { "type": "promo", "settings": { "asset": "new-in-feature-western-wear.png", "heading": "The Everyday Edit", "text": "Effortless style for every plan.", "button_label": "Shop now", "link": "/collections/all" } },
+        "promo_two": { "type": "promo", "settings": { "asset": "new-in-feature-watches.png", "heading": "Make It Yours", "text": "Details designed to stand out.", "button_label": "Explore", "link": "/collections/all" } },
+        "promo_three": { "type": "promo", "settings": { "asset": "new-in-category-accessories.png", "heading": "Complete the Look", "text": "The finishing touch to every story.", "button_label": "Shop accessories", "link": "/collections/accessories" } }
+      },
+      "block_order": ["hero", "circle_women", "circle_men", "circle_girls", "circle_boys", "circle_baby", "circle_toys", "circle_watches", "circle_accessories", "trend_one", "trend_two", "trend_three", "trend_four", "cat_one", "cat_two", "cat_three", "cat_four", "promo_one", "promo_two", "promo_three"],
+      "settings": { "hero_autoplay": false, "hero_speed": 5, "trending_heading": "Little Favourites", "categories_heading": "Shop by Age", "products_heading": "Best Selling Baby Styles", "products_to_show": 6, "returns_text": "Hassle-free returns within 7 days", "delivery_text": "Across Pakistan" }
+    }
+  },
+  "order": ["main"]
+}

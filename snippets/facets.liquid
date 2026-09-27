@@ -1,0 +1,34 @@
+{% comment %}Native Shopify storefront filters. Required: results.{% endcomment %}
+{% if results.filters.size > 0 %}
+  <details class="facets-drawer" data-filter-drawer>
+    <summary class="button button--secondary">Filters <span aria-hidden="true">☰</span></summary>
+    <div class="facets-drawer__panel">
+      <button type="button" class="facets-drawer__close" data-filter-close aria-label="Close filters">×</button>
+      <div class="facets-drawer__content"></div>
+    </div>
+  </details>
+{% endif %}
+
+<form class="facets" id="FacetsForm" data-facets-form>
+  {% if results.terms != blank %}<input type="hidden" name="q" value="{{ results.terms | escape }}"><input type="hidden" name="options[prefix]" value="last">{% endif %}
+  <div class="facets__heading"><h2>Filters</h2><a href="{{ results.url | default: routes.search_url }}{% if results.terms != blank %}?q={{ results.terms | url_encode }}&amp;type=product{% endif %}">Clear all</a></div>
+  {% for filter in results.filters %}
+    <details class="facet" open>
+      <summary>{{ filter.label | escape }} <span aria-hidden="true">⌄</span></summary>
+      <div class="facet__content">
+        {% case filter.type %}
+          {% when 'boolean', 'list' %}
+            {% for value in filter.values %}
+              <label class="facet__value{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                <span>{{ value.label | escape }} <small>({{ value.count }})</small></span>
+              </label>
+            {% endfor %}
+          {% when 'price_range' %}
+            <div class="facet__price"><label><span>Min</span><input name="{{ filter.min_value.param_name }}" type="number" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}" placeholder="0"{% if filter.min_value.value %} value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"{% endif %}></label><span>—</span><label><span>Max</span><input name="{{ filter.max_value.param_name }}" type="number" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}" placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"{% if filter.max_value.value %} value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"{% endif %}></label></div>
+        {% endcase %}
+      </div>
+    </details>
+  {% endfor %}
+  <button class="button facets__apply" type="submit">Apply filters</button>
+</form>
